@@ -821,35 +821,48 @@
 
   /* =============================================================
      9. CENA 01 · PASSOS COM VISUAL FIXO
+     Cada seção de passos (a história e o quarteto) tem o seu próprio
+     conjunto: os gatilhos e o contador são resolvidos dentro da seção,
+     senão um capítulo ativaria os passos do outro.
      ============================================================= */
   function setupSteps() {
-    var steps = Array.prototype.slice.call(document.querySelectorAll(".step[data-step]"));
-    if (!steps.length) return;
-    var shots = Array.prototype.slice.call(document.querySelectorAll(".shot[data-visual]"));
-    var counter = document.querySelector("[data-visual-count]");
+    var sections = Array.prototype.slice.call(document.querySelectorAll(".steps"));
+    if (!sections.length) return;
 
-    function activate(idx) {
-      steps.forEach(function (s, n) {
-        s.classList.toggle("is-active", n === idx);
-      });
-      shots.forEach(function (s, n) {
-        s.classList.toggle("is-active", n === idx);
-      });
-      if (counter) counter.textContent = pad(idx + 1);
-    }
+    sections.forEach(function (section) {
+      var steps = Array.prototype.slice.call(section.querySelectorAll(".step[data-step]"));
+      if (!steps.length) return;
+      var shots = Array.prototype.slice.call(section.querySelectorAll(".shot[data-visual]"));
+      var counter = section.querySelector("[data-visual-count]");
 
-    activate(0);
+      function activate(idx) {
+        steps.forEach(function (s, n) {
+          s.classList.toggle("is-active", n === idx);
+        });
+        shots.forEach(function (s, n) {
+          /* com um único visual (o quarteto) ele fica sempre visível */
+          if (shots.length === 1) {
+            s.classList.add("is-active");
+            return;
+          }
+          s.classList.toggle("is-active", n === idx);
+        });
+        if (counter) counter.textContent = pad(idx + 1);
+      }
 
-    if (!hasGsap || reduced) return;
+      activate(0);
 
-    steps.forEach(function (step, idx) {
-      ScrollTrigger.create({
-        trigger: step,
-        start: "top 65%",
-        end: "bottom 65%",
-        onToggle: function (self) {
-          if (self.isActive) activate(idx);
-        },
+      if (!hasGsap || reduced) return;
+
+      steps.forEach(function (step, idx) {
+        ScrollTrigger.create({
+          trigger: step,
+          start: "top 65%",
+          end: "bottom 65%",
+          onToggle: function (self) {
+            if (self.isActive) activate(idx);
+          },
+        });
       });
     });
   }
@@ -1180,7 +1193,7 @@
         return scroller.scrollWidth - scroller.clientWidth;
       }
       function stepSize() {
-        var first = scroller.querySelector(".panel, .gal");
+        var first = scroller.querySelector(".panel, .vid, .gal");
         if (!first) return scroller.clientWidth * 0.8;
         var gap = parseFloat(getComputedStyle(first.parentElement).gap) || 24;
         return first.getBoundingClientRect().width + gap;
@@ -1671,10 +1684,27 @@
   }
 
   /* =============================================================
+     15.1 CAPAS DOS VÍDEOS
+     A thumbnail do YouTube pode falhar (rede ou vídeo sem imagem em
+     HD): quando isso acontece, caímos no formato menor e o fundo
+     gradiente do cartão aparece por baixo.
+     ============================================================= */
+  function setupVideoThumbs() {
+    document.querySelectorAll('img[src*="img.youtube.com"]').forEach(function (img) {
+      img.addEventListener("error", function () {
+        if (img.dataset.fallback) return;
+        img.dataset.fallback = "1";
+        img.src = img.src.replace("hqdefault", "mqdefault");
+      });
+    });
+  }
+
+  /* =============================================================
      16. BOOT
      ============================================================= */
   setupSceneInteraction();
   setupReel();
+  setupVideoThumbs();
 
   /* Tudo o que trava na tela (pin) cria espaçamento no documento, então
      precisa nascer em ordem — batismo, cenas horizontais, fases — antes

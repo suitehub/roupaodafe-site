@@ -4223,18 +4223,6 @@ html.has-motion .batismo__row:nth-child(3) {
   animation: lightbox-in 0.4s var(--ease);
 }
 
-.lightbox__caption {
-  font-size: 0.78rem;
-  line-height: 1.5;
-  letter-spacing: 0.02em;
-  color: color-mix(in srgb, #fff 72%, transparent);
-  text-align: center;
-}
-
-.lightbox__caption:empty {
-  display: none;
-}
-
 .lightbox__close {
   position: absolute;
   top: clamp(10px, 2.6vw, 26px);

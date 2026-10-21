@@ -1805,7 +1805,6 @@
     var box = document.getElementById("lightbox");
     if (!box) return;
     var img = box.querySelector("img");
-    var caption = box.querySelector(".lightbox__caption");
     var closeBtn = box.querySelector(".lightbox__close");
     var opener = null;
     var isOpen = false;
@@ -1819,7 +1818,6 @@
         img.src = src;
         img.alt = inner ? inner.alt : "";
       }
-      if (caption) caption.textContent = inner ? inner.alt : "";
       box.hidden = false;
       isOpen = true;
       document.documentElement.classList.add("is-lightbox");

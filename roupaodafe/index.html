@@ -529,12 +529,14 @@
            passam uma após a outra, da direita para a esquerda, enquanto a
            rolagem desce. -->
       <section class="hscene hscene--pregações chapter" id="pregações" data-chapter="pregações">
-        <div class="hscene__viewport" data-hscene>
-          <div class="hscene__head">
-            <p class="eyebrow">03 — Pregações</p>
-            <h2 class="display" data-split>Palavras que <em>acendem a fé.</em></h2>
-          </div>
+        <!-- o título rola normalmente: ele sai de cena, os cartões sobem
+             até o meio da tela e só então a faixa trava -->
+        <header class="hscene__intro">
+          <p class="eyebrow">03 — Pregações</p>
+          <h2 class="display" data-split>Palavras que <em>acendem a fé.</em></h2>
+        </header>
 
+        <div class="hscene__viewport" data-hscene>
           <div class="hscene__scroller">
             <div class="hscene__track" data-htrack>
               <article class="vid">

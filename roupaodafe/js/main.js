@@ -1700,6 +1700,102 @@
   }
 
   /* =============================================================
+     15.2 CARTÕES DE PREGAÇÃO CABEM NA CENA
+     A cena trava na tela inteira: se o cartão (capa + texto) for mais
+     alto que a faixa que sobra, o rodapé do cartão fica cortado. Aqui a
+     largura é medida para o conjunto caber — a capa continua em 16:9 e,
+     em tela baixa, a descrição sai para devolver altura aos cartões.
+     ============================================================= */
+  function setupVideoFit() {
+    var sec = document.getElementById("pregações");
+    if (!sec) return;
+    var scroller = sec.querySelector(".hscene__scroller");
+    var viewport = sec.querySelector("[data-hscene]");
+    var cards = [].slice.call(sec.querySelectorAll(".vid"));
+    if (!scroller || !viewport || !cards.length) return;
+
+    function clear() {
+      cards.forEach(function (card) {
+        card.classList.remove("is-tight");
+        card.style.removeProperty("flex-basis");
+      });
+    }
+
+    function bodyHeight() {
+      var h = 0;
+      cards.forEach(function (card) {
+        var body = card.querySelector(".vid__body");
+        if (body) h = Math.max(h, body.offsetHeight);
+      });
+      return h;
+    }
+
+    function apply(width) {
+      cards.forEach(function (card) {
+        card.style.flexBasis = width + "px";
+      });
+    }
+
+    function fit() {
+      clear();
+
+      /* fora do travamento (tela baixa, movimento reduzido) a cena cresce
+         com o conteúdo e nada é cortado: a largura do CSS basta */
+      if (!viewport.classList.contains("is-pinned")) return;
+
+      var avail = scroller.clientHeight;
+      if (!avail) return;
+
+      /* largura que deixa a capa 16:9 + o texto dentro da faixa */
+      function widthFor(body) {
+        var w = ((avail - body) * 16) / 9;
+        /* nunca mais largo que a tela (com respiro nas laterais) */
+        var ceiling = Math.max(240, Math.round(window.innerWidth * 0.86));
+        return Math.max(210, Math.min(520, ceiling, Math.round(w)));
+      }
+
+      var body = bodyHeight();
+      var width = widthFor(body);
+
+      /* estreito demais para ler: a descrição sai (capa + título ficam) */
+      if (width < 280) {
+        cards.forEach(function (card) {
+          card.classList.add("is-tight");
+        });
+        body = bodyHeight();
+        width = widthFor(body);
+      }
+
+      /* a largura muda a quebra do texto — mede de novo até assentar */
+      for (var i = 0; i < 2; i++) {
+        apply(width);
+        var next = widthFor(bodyHeight());
+        if (next === width) break;
+        width = next;
+      }
+      apply(width);
+    }
+
+    fit();
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(fit);
+
+    var timer = null;
+    function schedule() {
+      clearTimeout(timer);
+      timer = setTimeout(function () {
+        fit();
+        if (hasGsap && typeof ScrollTrigger !== "undefined") ScrollTrigger.refresh();
+      }, 180);
+    }
+
+    window.addEventListener("resize", schedule);
+    window.addEventListener("orientationchange", schedule);
+    if (hasGsap && typeof ScrollTrigger !== "undefined") {
+      ScrollTrigger.addEventListener("refreshInit", fit);
+    }
+  }
+
+  /* =============================================================
      16. BOOT
      ============================================================= */
   setupSceneInteraction();
@@ -1714,11 +1810,14 @@
     docEl.classList.add("has-motion");
     setupBatismo();
 
-    /* cenas horizontais (02 símbolo · 04 histórias): conduzidas pela rolagem
-       em qualquer tela — nada de arrastar para o lado, basta descer que os
-       blocos atravessam um após o outro até o último e o scroll destrava */
+    /* cenas horizontais (02 símbolo · 03 pregações · 04 histórias):
+       conduzidas pela rolagem em qualquer tela — nada de arrastar para o
+       lado, basta descer que os blocos atravessam um após o outro até o
+       último e o scroll destrava. Em telas muito baixas (celular deitado,
+       janela achatada) a cena não trava: o cartão não caberia inteiro, e a
+       faixa passa a rolar na horizontal, com arrasto, roda e setas. */
     var mmScenes = gsap.matchMedia();
-    mmScenes.add("(prefers-reduced-motion: no-preference)", function () {
+    mmScenes.add("(min-height: 520px) and (prefers-reduced-motion: no-preference)", function () {
       var pinadas = [];
       /* cenas com data-hscene-static (a galeria de histórias) NÃO travam:
          passam direto com a rolagem e as fotos extras ficam acessíveis
@@ -1752,6 +1851,10 @@
       },
     );
   }
+
+  /* depois do travamento montado: aí a faixa dos cartões já tem a altura
+     final da cena e o ajuste da largura mede o espaço certo */
+  setupVideoFit();
 
   setupScrollAnimations();
   setupSimboloPalavra();

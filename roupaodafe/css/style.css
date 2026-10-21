@@ -1793,7 +1793,6 @@ button:focus-visible {
     flex-basis: clamp(220px, 36vw, 340px);
   }
 }
-
 .pinned .navy {
   height: 430vh;
   /* overflow: hidden cria um "scrolling box" e desliga o position: sticky
@@ -2826,23 +2825,47 @@ button:focus-visible {
   background: linear-gradient(180deg, var(--cream) 0%, var(--cream-2) 100%);
 }
 
+/* 03 · Pregações: o título fica fora do travamento — sobe e sai da tela
+   antes; aí a faixa de cartões trava e fica no meio da tela */
+.hscene__intro {
+  width: 100%;
+  max-width: var(--maxw);
+  margin-inline: auto;
+  padding: calc(var(--header-h) + clamp(34px, 7vh, 72px)) var(--gutter)
+    clamp(26px, 5vh, 48px);
+}
+
+.hscene__intro .display {
+  margin-top: 1.1rem;
+  max-width: 20ch;
+}
+
+.hscene--pregações .hscene__viewport {
+  padding: clamp(16px, 3svh, 36px) 0 clamp(14px, 2.6svh, 30px);
+  min-height: 100svh;
+}
+
 /* os cartões têm altura própria (capa 16:9 + texto) e ficam centrados na
    faixa, em vez de esticarem até o rodapé da tela travada */
 .hscene--pregações .hscene__track {
   align-items: center;
 }
 
-/* o cartão de convite acompanha o conteúdo (fica menor que os vídeos) */
+/* o cartão de convite acompanha o conteúdo (fica menor que os vídeos) e
+   encolhe o respiro em telas baixas para caber sem corte */
 .hscene--pregações .panel--cta {
   height: auto;
   min-height: 0;
+  max-height: 100%;
+  padding: clamp(14px, 2.9svh, 40px);
 }
 
 .vid {
-  flex: 0 0 clamp(280px, 58vw, 520px);
-  /* a altura nasce do conteúdo: a faixa da imagem guarda a proporção
-     16:9 do vídeo e o texto fica embaixo, sem ser espremido */
+  flex: 0 0 var(--vid-w, clamp(280px, 58vw, 520px));
+  /* a largura é ajustada por JS (setupVideoFit) para o cartão caber na
+     cena travada; a altura nasce do conteúdo: capa 16:9 + texto */
   height: auto;
+  max-height: 100%;
   scroll-snap-align: center;
   display: flex;
   flex-direction: column;
@@ -2864,7 +2887,8 @@ button:focus-visible {
 .vid__thumb {
   position: relative;
   display: block;
-  flex: 0 0 auto;
+  flex: 1 1 auto;
+  min-height: 0;
   aspect-ratio: 16 / 9;
   overflow: hidden;
   background:
@@ -2935,8 +2959,15 @@ button:focus-visible {
   display: flex;
   flex-direction: column;
   gap: 0.45rem;
-  flex: 1 1 auto;
+  /* o texto nunca encolhe: quem absorve o ajuste é a capa (e o JS já
+     ajusta a largura para a capa seguir em 16:9) */
+  flex: 0 0 auto;
   padding: clamp(18px, 2.2vw, 26px);
+}
+
+/* tela baixa: a descrição sai e o cartão fica só com capa, tipo e título */
+.vid.is-tight .vid__body p:not(.vid__kind) {
+  display: none;
 }
 
 .vid__kind {

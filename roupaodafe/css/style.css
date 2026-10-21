@@ -3546,31 +3546,94 @@ button:focus-visible {
     display: none;
   }
 
-  /* História: visual fixo no topo, texto passa por baixo */
+  /* Herói no celular: só a foto, sem as bordas gigantes em cima e embaixo.
+     A imagem ocupa a largura toda na proporção original (sem o fundo
+     desfocado) e o conteúdo já começa logo abaixo dela. */
+  .hero {
+    min-height: 0;
+    display: block;
+    background: none;
+  }
+
+  .hero__bg {
+    position: relative;
+    inset: auto;
+    display: block;
+    height: auto;
+    overflow: hidden;
+  }
+
+  .hero__bg-blur {
+    display: none;
+  }
+
+  .hero__bg-img {
+    display: block;
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+  }
+
+  /* História e Quarteto no celular: nada de foto presa por cima do texto.
+     As fotos ficam paradas, em uma faixa que desliza para o lado, e o
+     texto segue logo abaixo — a rolagem não sobrepõe nada. */
   .steps__grid {
     display: block;
   }
 
   .steps__visual {
-    position: sticky;
-    top: var(--header-h);
+    position: static;
     height: auto;
-    z-index: 2;
-    background: var(--cream);
-    padding: 12px 0 16px;
-    margin-bottom: 1.5rem;
-    border-bottom: 1px solid var(--line);
+    z-index: auto;
+    background: none;
+    padding: 0;
+    margin-bottom: clamp(22px, 4vh, 34px);
+    border-bottom: 0;
   }
 
   .steps__sticky {
-    aspect-ratio: 16 / 9;
-    max-height: 38svh;
+    display: flex;
+    gap: 10px;
+    aspect-ratio: auto;
+    max-width: none;
+    max-height: none;
+    padding-bottom: 2px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
   }
 
+  .steps__sticky::-webkit-scrollbar {
+    display: none;
+  }
+
+  .steps__sticky .shot {
+    position: relative;
+    inset: auto;
+    flex: 0 0 84%;
+    aspect-ratio: 16 / 9;
+    opacity: 1;
+    transform: none;
+    scroll-snap-align: center;
+    border-radius: 14px;
+    box-shadow: 0 26px 44px -34px rgba(20, 30, 60, 0.6);
+  }
+
+  /* com as três fotos à vista, o contador de passo perde o sentido */
+  .steps__counter {
+    display: none;
+  }
+
+  /* o quarteto tem uma foto só: ela ocupa a largura toda */
   .steps--quarteto .steps__sticky {
+    display: block;
+    max-width: 100%;
+    overflow: visible;
+  }
+
+  .steps--quarteto .steps__sticky .shot {
     aspect-ratio: 3 / 2;
-    max-width: min(100%, 78svh);
-    max-height: none;
   }
 
   .steps__text {

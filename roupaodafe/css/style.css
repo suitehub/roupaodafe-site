@@ -59,6 +59,21 @@ img {
   max-width: 100%;
 }
 
+/* texto só para leitores de tela (não aparece na tela, mas continua
+   no documento — o título da página, por exemplo) */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
 a {
   color: inherit;
   text-decoration: none;
@@ -592,6 +607,42 @@ button:focus-visible {
   transform: translateY(-102%);
 }
 
+/* No topo da página o cabeçalho flutua sobre a foto do herói (escura):
+   o texto vira claro. Quando a rolagem começa, entra o fundo de vidro
+   creme e tudo volta à cor escura. */
+.header:not(.is-scrolled) .brand__text {
+  color: #fff;
+}
+
+.header:not(.is-scrolled) .brand__text i {
+  color: var(--teal-light);
+}
+
+.header:not(.is-scrolled) .header__nav a {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.header:not(.is-scrolled) .header__nav a:hover {
+  color: #fff;
+}
+
+.header:not(.is-scrolled) .menu-toggle {
+  color: #fff;
+}
+
+.header:not(.is-scrolled) .menu-toggle__bars i {
+  background: #fff;
+}
+
+.header:not(.is-scrolled) .header__actions .btn--solid {
+  background: var(--cream);
+  color: var(--navy);
+}
+
+.header:not(.is-scrolled) .header__actions .btn--solid:hover {
+  background: #fff;
+}
+
 .header__inner {
   position: relative;
   max-width: var(--maxw);
@@ -622,6 +673,7 @@ button:focus-visible {
   font-size: 1.12rem;
   line-height: 1;
   color: var(--navy);
+  transition: color 0.4s ease;
 }
 
 .brand__text i {
@@ -683,6 +735,7 @@ button:focus-visible {
   letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--navy);
+  transition: color 0.4s ease;
 }
 
 .menu-toggle__bars {
@@ -695,7 +748,9 @@ button:focus-visible {
   width: 24px;
   height: 2px;
   background: var(--navy);
-  transition: transform 0.4s var(--ease);
+  transition:
+    transform 0.4s var(--ease),
+    background-color 0.4s ease;
 }
 
 .menu-toggle[aria-expanded="true"] .menu-toggle__bars i:first-child {
@@ -1005,123 +1060,47 @@ button:focus-visible {
 }
 
 /* ---------- Hero ---------- */
+/* O herói é só a imagem do topo: ela aparece INTEIRA (contain), sem véu e
+   sem filtro por cima. O fundo desfocado da própria foto cobre a tela toda
+   — assim sobra sempre uma cor, nunca uma barra vazia nas bordas. */
 .hero {
   position: relative;
   min-height: 100svh;
-  display: flex;
-  align-items: center;
+  display: grid;
+  place-items: center;
   overflow: hidden;
+  background: oklch(0.26 0.055 235);
 }
 
 .hero__bg {
   position: absolute;
   inset: 0;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
   will-change: transform;
 }
 
-.hero__bg img {
+/* fundo desfocado da mesma foto (cobre a tela além da imagem) */
+.hero__bg-blur {
+  position: absolute;
+  inset: -8%;
+  width: 116%;
+  height: 116%;
+  object-fit: cover;
+  filter: blur(34px) saturate(1.05);
+  opacity: 0.9;
+  transform: scale(1.04);
+}
+
+/* a foto, inteira e sem corte */
+.hero__bg-img {
+  position: relative;
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  object-position: 100% center;
-  transform: scale(1.14);
-}
-
-.hero__veil {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    100deg,
-    rgba(250, 247, 242, 0.96) 0%,
-    rgba(250, 247, 242, 0.88) 44%,
-    rgba(250, 247, 242, 0.5) 74%,
-    rgba(250, 247, 242, 0.3) 100%
-  );
-}
-
-.hero__inner {
-  position: relative;
-  z-index: 3;
-  width: 100%;
-  max-width: var(--maxw);
-  margin-inline: auto;
-  padding: calc(var(--header-h) + 56px) var(--gutter) 130px;
-}
-
-.hero__title {
-  margin-top: 1.6rem;
-  font-size: clamp(3rem, 9.4vw, 8rem);
-  line-height: 0.96;
-  max-width: 13ch;
-}
-
-.hero__lead {
-  margin-top: 1.9rem;
-  max-width: 46ch;
-  color: var(--muted);
-  font-size: clamp(0.98rem, 1.2vw, 1.1rem);
-  line-height: 1.75;
-}
-
-.hero__actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.9rem;
-  margin-top: 2.6rem;
-}
-
-.hero__cue {
-  position: absolute;
-  left: var(--gutter);
-  bottom: 30px;
-  z-index: 3;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.7rem;
-  font-size: 0.66rem;
-  font-weight: 800;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--navy);
-}
-
-.hero__cue-ring {
-  display: grid;
-  place-items: center;
-  width: 34px;
-  height: 34px;
-  border: 1px solid color-mix(in srgb, var(--navy) 40%, transparent);
-  border-radius: 50%;
-  animation: cue-bounce 2.2s var(--ease) infinite;
-}
-
-.hero__cue-ring svg {
-  fill: none;
-  stroke: var(--navy);
-  stroke-width: 2;
-  stroke-linecap: round;
-}
-
-@keyframes cue-bounce {
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(7px);
-  }
-}
-
-.hero__stamp {
-  position: absolute;
-  right: clamp(56px, 6vw, 96px);
-  bottom: 34px;
-  z-index: 3;
-  font-size: 0.64rem;
-  font-weight: 700;
-  letter-spacing: 0.24em;
-  text-transform: uppercase;
-  color: color-mix(in srgb, var(--ink) 60%, transparent);
+  object-fit: contain;
+  object-position: center;
+  transform: none;
 }
 
 /* ---------- Marquee ---------- */
@@ -2485,10 +2464,6 @@ button:focus-visible {
     display: none;
   }
 
-  .hero__stamp {
-    display: none;
-  }
-
   /* História: visual fixo no topo, texto passa por baixo */
   .steps__grid {
     display: block;
@@ -2547,14 +2522,6 @@ button:focus-visible {
   .btn {
     padding: 0.95rem 1.4rem;
     font-size: 0.7rem;
-  }
-
-  .hero__inner {
-    padding-bottom: 120px;
-  }
-
-  .hero__cue {
-    bottom: 24px;
   }
 
   .step {
@@ -2911,7 +2878,7 @@ html.has-motion .batismo__row:nth-child(3) {
     display: none;
   }
 
-  .hero__bg img {
+  .hero__bg-img {
     transform: none;
   }
 

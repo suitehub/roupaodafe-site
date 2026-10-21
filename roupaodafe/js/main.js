@@ -116,38 +116,11 @@
     var hero = document.querySelector(".hero");
     if (!hero) return;
 
-    var titleWords = hero.querySelectorAll(".hero__title .word__inner");
-    var eyebrow = hero.querySelector(".eyebrow");
-    var rest = hero.querySelectorAll("[data-intro]");
-
-    var tl = gsap.timeline({ defaults: { ease: "power4.out" } });
-
-    tl.fromTo(".hero__bg img", { scale: 1.14 }, { scale: 1, duration: 2.4, ease: "power2.out" }, 0);
-
-    if (eyebrow) {
-      tl.fromTo(eyebrow, { autoAlpha: 0, y: 24 }, { autoAlpha: 1, y: 0, duration: 0.85 }, 0.1);
-    }
-
-    if (titleWords.length) {
-      tl.fromTo(
-        titleWords,
-        { yPercent: 115 },
-        { yPercent: 0, duration: 1.15, stagger: 0.07 },
-        0.3,
-      );
-    }
-
-    var others = Array.prototype.filter.call(rest, function (el) {
-      return el !== eyebrow;
-    });
-    if (others.length) {
-      tl.fromTo(
-        others,
-        { autoAlpha: 0, y: 28 },
-        { autoAlpha: 1, y: 0, duration: 0.9, stagger: 0.1 },
-        0.75,
-      );
-    }
+    /* O herói é só a imagem: ela entra inteira — sem zoom, sem nada
+       cortado — apenas com um fundão suave. */
+    var tl = gsap.timeline({ defaults: { ease: "power2.out" } });
+    tl.fromTo(".hero__bg-img", { autoAlpha: 0 }, { autoAlpha: 1, duration: 1.5 }, 0);
+    tl.fromTo(".hero__bg-blur", { autoAlpha: 0 }, { autoAlpha: 0.9, duration: 1.8 }, 0);
   }
 
   function finishPreloader() {
@@ -806,15 +779,6 @@
         },
       );
     });
-
-    /* herói afunda ao rolar */
-    if (document.querySelector(".hero__bg")) {
-      gsap.to(".hero__bg", {
-        yPercent: 14,
-        ease: "none",
-        scrollTrigger: { trigger: ".hero", start: "top top", end: "bottom top", scrub: true },
-      });
-    }
 
     /* contador 38 mil */
     var stat = document.getElementById("statCount");

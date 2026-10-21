@@ -199,44 +199,31 @@
     </div>
 
     <main id="main">
-      <!-- ======================= 00 · HERO ======================= -->
+      <!-- ======================= 00 · HERÓI (só a imagem) ======================= -->
+      <!-- Sem texto, sem véu e sem filtro por cima: a foto do topo aparece
+           inteira (object-fit: contain) sobre um fundo desfocado da própria
+           imagem — assim a tela nunca fica com barra vazia nas bordas. -->
       <section class="hero chapter" id="inicio" data-chapter="inicio">
+        <h1 class="sr-only">Roupão da Fé — Uma história pode recomeçar</h1>
+
         <div class="hero__bg" data-hero-bg>
-          <img src="assets/bg1.png" alt="" />
+          <img
+            class="hero__bg-blur"
+            src="assets/topo.png"
+            alt=""
+            aria-hidden="true"
+            decoding="async"
+          />
+          <img
+            class="hero__bg-img"
+            src="assets/topo.png"
+            alt="Roupão da Fé"
+            width="1366"
+            height="768"
+            fetchpriority="high"
+            decoding="async"
+          />
         </div>
-        <div class="hero__veil"></div>
-        <div class="grain" aria-hidden="true"></div>
-
-        <div class="hero__inner">
-          <p class="eyebrow" data-intro>Um convite ao recomeço</p>
-          <h1 class="display hero__title" data-split>
-            Uma história<br />pode <em>recomeçar.</em>
-          </h1>
-          <p class="hero__lead" data-intro>
-            Um gesto de amor pode abrir caminho para o reencontro com a fé. O Roupão da Fé é uma
-            iniciativa missionária de acolhimento, esperança e renovação espiritual.
-          </p>
-          <div class="hero__actions" data-intro>
-            <a class="btn btn--solid" href="#historia">
-              Conheça a história
-              <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
-                <path d="M4 12h15M13 6l6 6-6 6" />
-              </svg>
-            </a>
-            <a class="btn btn--ghost" href="#doar">Quero contribuir</a>
-          </div>
-        </div>
-
-        <a class="hero__cue" href="#historia" data-intro>
-          <span class="hero__cue-ring">
-            <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true">
-              <path d="M6 9l6 6 6-6" />
-            </svg>
-          </span>
-          Role para descobrir
-        </a>
-
-        <p class="hero__stamp" data-intro>Desde 2011 · Uma iniciativa missionária</p>
       </section>
 
       <!-- ======================= FAIXA MARQUEE ======================= -->

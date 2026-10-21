@@ -1,0 +1,421 @@
+<!doctype html>
+<html lang="pt-BR" class="no-js">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Como participar — Roupão da Fé</title>
+    <meta
+      name="description"
+      content="Manual de orientação do Projeto Roupão da Fé: introdução, justificativa e o passo a passo em 17 etapas."
+    />
+    <meta property="og:title" content="Como participar — Roupão da Fé" />
+    <meta
+      property="og:description"
+      content="Manual de orientação: introdução, justificativa e passo a passo em 17 etapas."
+    />
+    <meta property="og:type" content="website" />
+    <meta name="theme-color" content="#faf7f2" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Manrope:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="vendor/lenis.css" />
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="icon" href="assets/logo.png" type="image/png" />
+    <script>
+      document.documentElement.classList.remove("no-js");
+      document.documentElement.classList.add("js");
+    </script>
+    <script>
+      /* Driver híbrido de animação (ver index.html): rAF cai para timer
+         quando o documento fica oculto, senão GSAP/Lenis/lazy-load travam. */
+      (function () {
+        var nativeRAF = window.requestAnimationFrame.bind(window);
+        var nativeCAF = window.cancelAnimationFrame.bind(window);
+        var hidden = document.visibilityState !== "visible";
+        var seq = 0;
+        var timers = {};
+        var lastY = -1;
+
+        window.requestAnimationFrame = function (cb) {
+          if (!hidden) return nativeRAF(cb);
+          var id = ++seq;
+          timers[id] = window.setTimeout(function () {
+            delete timers[id];
+            cb(performance.now());
+            /* Repropaga o scroll em documento oculto (ver index.html). */
+            var y = window.pageYOffset || document.documentElement.scrollTop || 0;
+            if (y !== lastY) {
+              lastY = y;
+              window.dispatchEvent(new Event("scroll"));
+            }
+          }, 16);
+          return id;
+        };
+
+        window.cancelAnimationFrame = function (id) {
+          if (timers[id] !== undefined) {
+            window.clearTimeout(timers[id]);
+            delete timers[id];
+            return;
+          }
+          nativeCAF(id);
+        };
+
+        document.addEventListener("visibilitychange", function () {
+          hidden = document.visibilityState !== "visible";
+          if (!hidden && window.ScrollTrigger) window.ScrollTrigger.refresh();
+        });
+      })();
+    </script>
+  </head>
+
+  <body>
+    <div class="topbar" aria-hidden="true"><span class="topbar__fill" id="topbarFill"></span></div>
+
+    <header class="header is-scrolled" id="header">
+      <div class="header__inner">
+        <a class="brand" href="index.html" aria-label="Roupão da Fé — início">
+          <img src="assets/logo.png" alt="Roupão da Fé" width="424" height="424" />
+          <span class="brand__text">Roupão <i>da Fé</i></span>
+        </a>
+        <div class="header__actions">
+          <a class="back-link" href="index.html">
+            <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true">
+              <path d="M20 12H5M11 6l-6 6 6 6" />
+            </svg>
+            Voltar ao início
+          </a>
+          <a class="btn btn--solid btn--sm" href="index.html#doar">Quero contribuir</a>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <!-- ======================= HERO DO MANUAL ======================= -->
+      <section class="manual-hero">
+        <div class="grain" aria-hidden="true"></div>
+        <div class="manual-hero__inner">
+          <p class="eyebrow">Manual de orientação</p>
+          <h1 class="display" data-split>Como participar do <em>Roupão da Fé.</em></h1>
+          <p class="manual-hero__lead">
+            Uma ferramenta para somar forças com pastores, líderes e membros no propósito de salvar
+            pessoas — na sua região, distrito, igreja, comunidade e vida.
+          </p>
+          <div class="manual-hero__chips">
+            <span>Introdução</span>
+            <span>Justificativa</span>
+            <span>17 passos</span>
+            <span>Missão contínua</span>
+          </div>
+          <div class="manual-cta">
+            <a class="btn btn--solid" href="#passo-a-passo">Começar pelo passo 1</a>
+            <a class="btn btn--ghost" href="tel:+5511987612710">(11) 98761-2710</a>
+          </div>
+        </div>
+      </section>
+
+      <!-- ======================= INTRODUÇÃO ======================= -->
+      <section class="manual-section">
+        <p class="eyebrow">01 — Introdução</p>
+        <h2 class="display" data-split>O nosso tempo é <em>hoje, agora.</em></h2>
+
+        <blockquote class="manual-card" data-reveal>
+          <p>
+            “O cristão que não se envolve com a salvação de pessoas é como um bombeiro que corre
+            para um prédio em chamas preocupado com o quadro torto na parede.”
+          </p>
+          <footer>Dwight Moody</footer>
+        </blockquote>
+
+        <div class="manual-section__body" data-reveal>
+          <p>
+            O mundo está sendo consumido pelas chamas do pecado, injustiça e maldade; as pessoas
+            estão gritando por socorro e a cada dia, milhares perdem a vida e a salvação. Temos
+            condições de ajudá-las, pois devemos proclamar o evangelho que liberta e transforma.
+          </p>
+          <p>
+            Somos como um bombeiro que de alguma forma pode ajudar a amenizar as chamas e salvar
+            vidas, mas muitas vezes estamos preocupado com os “quadros tortos na parede”. Focamos
+            apenas nos detalhes periféricos e que não têm relação com a salvação eterna.
+          </p>
+          <p>
+            “Teremos a eternidade para celebrar com os amigos que serão salvos, mas temos apenas
+            esta vida para alcançá-los.” É verdade que o evangelho é eterno, mas não temos a
+            eternidade para pregá-lo.
+          </p>
+        </div>
+      </section>
+
+      <!-- ======================= JUSTIFICATIVA ======================= -->
+      <section class="manual-section">
+        <p class="eyebrow">02 — Justificativa</p>
+        <h2 class="display" data-split>A materialização <em>de um sonho.</em></h2>
+
+        <div class="manual-stat" data-reveal>
+          <b>38<i>mil</i></b>
+          <span>pessoas levadas à decisão pelo batismo em todo o Brasil.</span>
+        </div>
+
+        <div class="manual-section__body" data-reveal>
+          <p>
+            Cada amigo interessado e ex-adventista poderá ter a oportunidade de receber esse
+            presente de amor e sentir possível a realização do sonho de se entregar a Jesus.
+            Sonhar é bom, realizar é melhor.
+          </p>
+          <p>
+            Que tal orar e trabalhar em favor da salvação das pessoas ao seu redor? Pense no seu
+            esposo, esposa, filhos, sobrinhos, netos, amigos e vizinhos — não seria uma grande
+            alegria recebê-los na igreja para se prepararem para a volta de Jesus?
+          </p>
+        </div>
+
+        <blockquote class="manual-card" data-reveal>
+          <p>“Você não pode voltar e mudar o começo, mas pode recomeçar hoje e mudar o final.”</p>
+          <footer>C. S. Lewis</footer>
+        </blockquote>
+      </section>
+
+      <!-- ======================= PASSO A PASSO ======================= -->
+      <section class="manual-section" id="passo-a-passo">
+        <p class="eyebrow">03 — Passo a passo</p>
+        <h2 class="display" data-split>17 etapas para <em>salvar pessoas.</em></h2>
+        <p class="manual-hero__lead">
+          Do lançamento no concílio à celebração batismal — e além: cada batizado se torna um
+          missionário.
+        </p>
+
+        <ol class="manual-steps">
+          <li data-reveal>
+            <b>01</b>
+            <div>
+              <h3>Lançamento no concílio</h3>
+              <p>O projeto será lançado no concílio de pastores e anciãos no início do ano.</p>
+              <div class="tags">
+                <span>Concílio Pastoral</span><span>Concílio de Anciãos</span>
+              </div>
+            </div>
+          </li>
+          <li data-reveal>
+            <b>02</b>
+            <div>
+              <h3>Oração de dedicação</h3>
+              <p>
+                Oração de dedicação em favor dos roupões que serão utilizados para a salvação de
+                pessoas. O único propósito do roupão é colaborar para a salvação. Tenha certeza que
+                Deus fará grandes maravilhas, pois Ele é o maior interessado nessa missão.
+              </p>
+              <div class="tags"><span>Apresentação e dedicação</span></div>
+            </div>
+          </li>
+          <li data-reveal>
+            <b>03</b>
+            <div>
+              <h3>Liste os amigos</h3>
+              <p>
+                Prepare uma lista de todos os interessados e ex-adventistas junto à secretaria da
+                igreja e procure levantar informações a respeito deles.
+              </p>
+            </div>
+          </li>
+          <li data-reveal>
+            <b>04</b>
+            <div>
+              <h3>Jornada de oração</h3>
+              <p>
+                Realize uma jornada de oração ou vigília, buscando o poder do Espírito Santo para
+                tocar no coração dos amigos interessados e ex-adventistas.
+              </p>
+              <div class="tags">
+                <span>Vigília de consagração</span><span>Consagração no distrito</span>
+              </div>
+            </div>
+          </li>
+          <li data-reveal>
+            <b>05</b>
+            <div>
+              <h3>Apoio da comissão</h3>
+              <p>
+                Apresente o projeto do roupão da fé para a comissão da igreja (é necessário o apoio
+                de toda a liderança).
+              </p>
+            </div>
+          </li>
+          <li data-reveal>
+            <b>06</b>
+            <div>
+              <h3>Alvo e encomenda</h3>
+              <p>
+                Defina o alvo de batismo de cada igreja e faça a encomenda dos roupões de batismo
+                para cada igreja. Procure o seu pastor distrital para a encomenda dos roupões.
+              </p>
+            </div>
+          </li>
+          <li data-reveal>
+            <b>07</b>
+            <div>
+              <h3>Consagração na igreja</h3>
+              <p>
+                Faça a consagração dos roupões de batismo no sábado de manhã (presença do pastor,
+                anciãos e líderes). Cada um pode segurar um roupão à frente da igreja no momento da
+                oração de consagração.
+              </p>
+            </div>
+          </li>
+          <li data-reveal>
+            <b>08</b>
+            <div>
+              <h3>Embalagem surpresa</h3>
+              <p>
+                Coloque os roupões em uma linda embalagem. Procure não colocar em embalagens
+                transparentes, pois a entrega do roupão é surpresa. Você pode usar a sua
+                criatividade para preparar uma linda embalagem. O importante é preparar com esmero
+                esse presente de amor.
+              </p>
+              <div class="tags"><span>Opções sugestivas de embalagens</span></div>
+            </div>
+          </li>
+          <li data-reveal>
+            <b>09</b>
+            <div>
+              <h3>Capacitação</h3>
+              <p>
+                Realize encontros de capacitação em prol das visitações, apelos e entregas dos
+                roupões da fé.
+              </p>
+            </div>
+          </li>
+          <li data-reveal>
+            <b>10</b>
+            <div>
+              <h3>Equipe de visitação</h3>
+              <p>
+                Organize líderes missionários e que ganham pessoas para Jesus para que façam parte
+                da equipe de visitação. Separe-os em duplas. No momento das visitações, é uma
+                oportunidade de falar menos e ouvir mais. Em sua maioria, amigos ex-adventistas em
+                especial não possuem dúvidas acerca das doutrinas — às vezes é uma mágoa, rancor,
+                ressentimento ou dificuldade. Durante a conversa amigável, procure identificar a
+                causa da apostasia.
+              </p>
+            </div>
+          </li>
+          <li data-reveal>
+            <b>11</b>
+            <div>
+              <h3>Semana de oração</h3>
+              <p>
+                Planeje uma semana de oração ou série de conferências para convidar todos esses
+                amigos para esse encontro especial.
+              </p>
+            </div>
+          </li>
+          <li data-reveal>
+            <b>12</b>
+            <div>
+              <h3>Bom pregador</h3>
+              <p>
+                Escolha um bom pregador que será um instrumento nas mãos de Deus para levar
+                pessoas à decisão.
+              </p>
+            </div>
+          </li>
+          <li data-reveal>
+            <b>13</b>
+            <div>
+              <h3>Estratégias de convite</h3>
+              <p>
+                Organize as estratégias para convidar esses amigos que vocês estão orando para
+                participarem da semana ou conferência.
+              </p>
+            </div>
+          </li>
+          <li data-reveal>
+            <b>14</b>
+            <div>
+              <h3>Jovens e desbravadores</h3>
+              <p>
+                Procure apoio dos jovens e desbravadores para realizarem serenatas ou outras
+                maneiras criativas para convidarem todos esses amigos.
+              </p>
+            </div>
+          </li>
+          <li data-reveal>
+            <b>15</b>
+            <div>
+              <h3>Todos os departamentos</h3>
+              <p>
+                Comece a semana de oração com a participação de todos os departamentos da igreja.
+                Se organizem para uma semana especial e inesquecível pensando nesses amigos
+                interessados.
+              </p>
+            </div>
+          </li>
+          <li data-reveal>
+            <b>16</b>
+            <div>
+              <h3>Celebração batismal</h3>
+              <p>Prepare uma linda celebração batismal com todos os amigos usando o roupão da fé.</p>
+            </div>
+          </li>
+          <li data-reveal>
+            <b>17</b>
+            <div>
+              <h3>Batizado vira missionário</h3>
+              <p>
+                A pessoa que usou o roupão da fé no dia do batismo deverá ser motivada e instruída
+                para orar e trabalhar em favor de um amigo especial. O roupão que ela usou será
+                entregue para essa pessoa — a ideia é que o roupão seja um presente de amor. Enquanto
+                houver roupão, haverá oportunidades de salvação.
+              </p>
+            </div>
+          </li>
+        </ol>
+
+        <blockquote class="manual-card" data-reveal>
+          <footer style="margin-top: 0; margin-bottom: 1rem">Importante</footer>
+          <p>O recém-converso deverá ser acompanhado e treinado para ser um missionário também.</p>
+          <footer>Enquanto houver roupão, haverá oportunidades de salvação.</footer>
+        </blockquote>
+      </section>
+
+      <!-- ======================= CONTATO ======================= -->
+      <section class="manual-section">
+        <p class="eyebrow">04 — Contato</p>
+        <h2 class="display" data-split>Vamos fazer parte <em>dessa missão?</em></h2>
+        <div class="manual-cta" data-reveal>
+          <a class="btn btn--solid" href="tel:+5511987612710">(11) 98761-2710</a>
+          <a class="btn btn--ghost" href="index.html">Voltar ao início</a>
+          <a class="btn btn--ghost" href="index.html#doar">Quero contribuir</a>
+        </div>
+      </section>
+
+      <footer class="footer">
+        <div class="footer__inner">
+          <a class="brand" href="index.html">
+            <img src="assets/logo.png" alt="Roupão da Fé" width="424" height="424" />
+            <span class="brand__text">Roupão <i>da Fé</i></span>
+          </a>
+          <nav class="footer__nav" aria-label="Rodapé">
+            <a href="index.html#historia">História</a>
+            <a href="index.html#participar">Participar</a>
+            <a href="index.html#historias">Histórias</a>
+            <a href="index.html#doar">Contribuir</a>
+            <a href="index.html#contato">Contato</a>
+          </nav>
+          <div class="footer__legal">
+            <p>Manual de orientação — Projeto Roupão da Fé.</p>
+            <p>© 2026 Roupão da Fé</p>
+          </div>
+        </div>
+      </footer>
+    </main>
+
+    <script src="vendor/gsap.min.js"></script>
+    <script src="vendor/ScrollTrigger.min.js"></script>
+    <script src="vendor/lenis.min.js"></script>
+    <script src="js/main.js"></script>
+  </body>
+</html>

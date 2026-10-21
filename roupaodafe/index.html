@@ -231,7 +231,10 @@
           <!-- no celular entra a arte vertical (topomobile.png); no PC e nos
                demais tamanhos continua a topo.png -->
           <picture class="hero__picture">
-            <source media="(max-width: 600px)" srcset="assets/topomobile.png" />
+            <source
+              media="(max-width: 600px), (max-width: 900px) and (orientation: portrait)"
+              srcset="assets/topomobile.png"
+            />
             <img
               class="hero__bg-img"
               src="assets/topo.png"

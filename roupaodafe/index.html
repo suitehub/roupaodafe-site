@@ -213,22 +213,35 @@
         <h1 class="sr-only">Roupão da Fé — Uma história pode recomeçar</h1>
 
         <div class="hero__bg" data-hero-bg>
-          <img
-            class="hero__bg-blur"
-            src="assets/topo.png"
-            alt=""
-            aria-hidden="true"
-            decoding="async"
-          />
-          <img
-            class="hero__bg-img"
-            src="assets/topo.png"
-            alt="Roupão da Fé"
-            width="1366"
-            height="768"
-            fetchpriority="high"
-            decoding="async"
-          />
+          <!-- no celular o fundo desfocado não existe (a foto ocupa a largura
+               toda); o source vazio evita baixar a topo.png à toa -->
+          <picture class="hero__blur-picture">
+            <source
+              media="(max-width: 900px)"
+              srcset="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
+            />
+            <img
+              class="hero__bg-blur"
+              src="assets/topo.png"
+              alt=""
+              aria-hidden="true"
+              decoding="async"
+            />
+          </picture>
+          <!-- no celular entra a arte vertical (topomobile.png); no PC e nos
+               demais tamanhos continua a topo.png -->
+          <picture class="hero__picture">
+            <source media="(max-width: 600px)" srcset="assets/topomobile.png" />
+            <img
+              class="hero__bg-img"
+              src="assets/topo.png"
+              alt="Roupão da Fé"
+              width="1366"
+              height="768"
+              fetchpriority="high"
+              decoding="async"
+            />
+          </picture>
         </div>
       </section>
 

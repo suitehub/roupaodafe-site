@@ -1196,42 +1196,71 @@
             </article>
 
             <!-- ---------- Caso 2 · Capão Enéias (plantio em andamento) ----------
-                 4 fotos ilustrativas (trocar pelos registros do terreno).
+                 4 fotos do terreno (capao1–capao4). Cada uma amplia no hover e
+                 abre em tela cheia no clique/toque (lightbox).
                  O texto é corrido: as falas do áudio viraram informação,
                  e o Impacto Esperança aparece só como contexto. -->
             <article class="case case--wide case--audio" data-reveal>
               <div class="case__gallery">
                 <figure class="case__shot case__shot--1">
-                  <img
-                    src="assets/Imagem1.jpg"
-                    alt="Registro do plantio em Capão Enéias (imagem ilustrativa)"
-                    loading="lazy"
-                    decoding="async"
-                  />
+                  <a
+                    class="case__open"
+                    href="assets/capao1.jpeg"
+                    data-zoom
+                    aria-label="Ampliar foto: terreno do plantio em Capão Enéias"
+                  >
+                    <img
+                      src="assets/capao1.jpeg"
+                      alt="Terreno do plantio de igreja em Capão Enéias"
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  </a>
                 </figure>
                 <figure class="case__shot case__shot--2">
-                  <img
-                    src="assets/Imagem5.jpg"
-                    alt="Registro do plantio em Capão Enéias (imagem ilustrativa)"
-                    loading="lazy"
-                    decoding="async"
-                  />
+                  <a
+                    class="case__open"
+                    href="assets/capao2.jpeg"
+                    data-zoom
+                    aria-label="Ampliar foto: vista do terreno em Capão Enéias"
+                  >
+                    <img
+                      src="assets/capao2.jpeg"
+                      alt="Vista do terreno onde a igreja será plantada, em Capão Enéias"
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  </a>
                 </figure>
                 <figure class="case__shot case__shot--3">
-                  <img
-                    src="assets/Imagem7.jpg"
-                    alt="Registro do plantio em Capão Enéias (imagem ilustrativa)"
-                    loading="lazy"
-                    decoding="async"
-                  />
+                  <a
+                    class="case__open"
+                    href="assets/capao3.jpg"
+                    data-zoom
+                    aria-label="Ampliar foto: frente do terreno em Capão Enéias"
+                  >
+                    <img
+                      src="assets/capao3.jpg"
+                      alt="Frente do terreno do plantio em Capão Enéias"
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  </a>
                 </figure>
                 <figure class="case__shot case__shot--4">
-                  <img
-                    src="assets/Imagem10.jpg"
-                    alt="Registro do plantio em Capão Enéias (imagem ilustrativa)"
-                    loading="lazy"
-                    decoding="async"
-                  />
+                  <a
+                    class="case__open"
+                    href="assets/capao4.jpg"
+                    data-zoom
+                    aria-label="Ampliar foto: arredores do terreno em Capão Enéias"
+                  >
+                    <img
+                      src="assets/capao4.jpg"
+                      alt="Arredores do terreno do plantio em Capão Enéias"
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  </a>
                 </figure>
               </div>
 
@@ -1469,6 +1498,22 @@
         </div>
       </footer>
     </main>
+
+    <!-- FOTO AMPLIADA (lightbox das fotos do plantio) -->
+    <div class="lightbox" id="lightbox" hidden>
+      <div class="lightbox__veil" data-close></div>
+
+      <figure class="lightbox__figure">
+        <img alt="" decoding="async" />
+        <figcaption class="lightbox__caption"></figcaption>
+      </figure>
+
+      <button class="lightbox__close" type="button" data-close aria-label="Fechar imagem ampliada">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M6 6l12 12M18 6 6 18" />
+        </svg>
+      </button>
+    </div>
 
     <script src="vendor/gsap.min.js"></script>
     <script src="vendor/ScrollTrigger.min.js"></script>

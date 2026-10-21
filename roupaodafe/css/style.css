@@ -3396,17 +3396,49 @@ button:focus-visible {
   border-radius: 16px;
   overflow: hidden;
   box-shadow: 0 30px 60px -42px rgba(20, 30, 60, 0.75);
+  transition: box-shadow 0.5s var(--ease);
+}
+
+/* a foto inteira é um botão: no hover ela amplia, ao sair volta ao normal;
+   no toque ela abre em tela cheia (lightbox) */
+.case__open {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: zoom-in;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.case__open img {
+  display: block;
 }
 
 .case__shot img {
   width: 100%;
   aspect-ratio: 16 / 9;
   object-fit: cover;
-  transition: transform 0.8s var(--ease);
+  transition: transform 0.7s var(--ease);
 }
 
-.case__shot:hover img {
-  transform: scale(1.06);
+@media (hover: hover) {
+  .case__shot:hover img {
+    transform: scale(1.07);
+  }
+
+  .case__shot:hover {
+    box-shadow: 0 42px 74px -38px rgba(20, 30, 60, 0.92);
+  }
+}
+
+.case__open:focus-visible {
+  outline: 2px solid var(--teal);
+  outline-offset: -3px;
+}
+
+.case__open:focus-visible img {
+  transform: scale(1.07);
 }
 
 .case__shot--1 {
@@ -4062,4 +4094,130 @@ html.has-motion .batismo__row:nth-child(3) {
 
 .no-js .batismo__row {
   left: 0 !important;
+}
+
+/* =============================================================
+   FOTO AMPLIADA (fotos do plantio)
+   ============================================================= */
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 320;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(16px, 4vw, 52px);
+  touch-action: none;
+}
+
+.lightbox[hidden] {
+  display: none;
+}
+
+.lightbox__veil {
+  position: absolute;
+  inset: 0;
+  background: color-mix(in srgb, var(--navy-deep) 88%, transparent);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  animation: lightbox-veil 0.3s var(--ease);
+}
+
+.lightbox__figure {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  max-width: min(94vw, 1320px);
+  margin: 0;
+}
+
+.lightbox__figure img {
+  display: block;
+  width: auto;
+  height: auto;
+  max-width: min(94vw, 1320px);
+  max-height: 82svh;
+  border-radius: 14px;
+  box-shadow: 0 50px 110px -50px #000;
+  animation: lightbox-in 0.4s var(--ease);
+}
+
+.lightbox__caption {
+  font-size: 0.78rem;
+  line-height: 1.5;
+  letter-spacing: 0.02em;
+  color: color-mix(in srgb, #fff 72%, transparent);
+  text-align: center;
+}
+
+.lightbox__caption:empty {
+  display: none;
+}
+
+.lightbox__close {
+  position: absolute;
+  top: clamp(10px, 2.6vw, 26px);
+  right: clamp(10px, 2.6vw, 26px);
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  border: 1px solid color-mix(in srgb, #fff 30%, transparent);
+  background: color-mix(in srgb, #fff 12%, transparent);
+  color: #fff;
+  cursor: pointer;
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  transition:
+    background-color 0.3s var(--ease),
+    transform 0.3s var(--ease);
+}
+
+.lightbox__close:hover {
+  background: color-mix(in srgb, #fff 24%, transparent);
+  transform: scale(1.06);
+}
+
+.lightbox__close:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 3px;
+}
+
+.lightbox__close svg {
+  width: 20px;
+  height: 20px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.9;
+  stroke-linecap: round;
+}
+
+/* a página de trás não rola enquanto a foto está aberta */
+.is-lightbox,
+.is-lightbox body {
+  overflow: hidden;
+}
+
+@keyframes lightbox-veil {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes lightbox-in {
+  from {
+    opacity: 0;
+    transform: scale(0.94);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lightbox__veil,
+  .lightbox__figure img {
+    animation: none;
+  }
 }

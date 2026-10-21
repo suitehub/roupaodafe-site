@@ -1796,11 +1796,75 @@
   }
 
   /* =============================================================
+     15.3 FOTO AMPLIADA
+     Clicar (ou tocar) numa foto do plantio abre a imagem inteira num véu
+     escuro, com o X no canto. Fecham: o X, o véu, o Esc — e a página de
+     trás não rola enquanto a foto está aberta.
+     ============================================================= */
+  function setupLightbox() {
+    var box = document.getElementById("lightbox");
+    if (!box) return;
+    var img = box.querySelector("img");
+    var caption = box.querySelector(".lightbox__caption");
+    var closeBtn = box.querySelector(".lightbox__close");
+    var opener = null;
+    var isOpen = false;
+
+    function open(link) {
+      var src = link.getAttribute("href");
+      var inner = link.querySelector("img");
+      if (!src) return;
+      opener = link;
+      if (img) {
+        img.src = src;
+        img.alt = inner ? inner.alt : "";
+      }
+      if (caption) caption.textContent = inner ? inner.alt : "";
+      box.hidden = false;
+      isOpen = true;
+      document.documentElement.classList.add("is-lightbox");
+      if (lenis) lenis.stop();
+      if (closeBtn) closeBtn.focus({ preventScroll: true });
+    }
+
+    function close() {
+      if (!isOpen) return;
+      isOpen = false;
+      box.hidden = true;
+      if (img) img.removeAttribute("src");
+      document.documentElement.classList.remove("is-lightbox");
+      if (lenis) lenis.start();
+      if (opener && opener.focus) opener.focus({ preventScroll: true });
+      opener = null;
+    }
+
+    document.querySelectorAll("[data-zoom]").forEach(function (link) {
+      link.addEventListener("click", function (e) {
+        e.preventDefault();
+        open(link);
+      });
+    });
+
+    box.querySelectorAll("[data-close]").forEach(function (el) {
+      el.addEventListener("click", close);
+    });
+
+    document.addEventListener("keydown", function (e) {
+      if (!isOpen) return;
+      if (e.key === "Escape" || e.key === "Esc") {
+        e.preventDefault();
+        close();
+      }
+    });
+  }
+
+  /* =============================================================
      16. BOOT
      ============================================================= */
   setupSceneInteraction();
   setupReel();
   setupVideoThumbs();
+  setupLightbox();
 
   /* Tudo o que trava na tela (pin) cria espaçamento no documento, então
      precisa nascer em ordem — batismo, cenas horizontais, fases — antes

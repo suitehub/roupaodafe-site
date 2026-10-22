@@ -3030,11 +3030,11 @@ button:focus-visible {
 }
 
 .steps--quarteto .steps__sticky {
-  /* a foto do quarteto é deitada (1516×1037): a caixa acompanha a
-     proporção para o retrato não ser cortado nas laterais, e a largura
-     é limitada pela altura da tela para não esticar a figura */
-  aspect-ratio: 3 / 2;
-  max-width: min(100%, 93svh);
+  /* a foto do quarteto é quadrada (941×941): a caixa acompanha a
+     proporção para a foto não ser cortada, e a largura é limitada pela
+     altura da tela para a figura não estourar para fora da seção */
+  aspect-ratio: 1 / 1;
+  max-width: min(100%, 66svh);
   margin-inline: auto;
 }
 
@@ -3656,7 +3656,7 @@ button:focus-visible {
   }
 
   .steps--quarteto .steps__sticky .shot {
-    aspect-ratio: 3 / 2;
+    aspect-ratio: 1 / 1;
   }
 
   .steps__text {

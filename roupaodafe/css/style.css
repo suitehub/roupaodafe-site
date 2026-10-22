@@ -2703,6 +2703,13 @@ button:focus-visible {
   color: var(--navy);
 }
 
+/* semana inteira (07–13): o número duplo entra num corpo menor */
+.agenda__date b.is-range {
+  font-size: 1.06rem;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+}
+
 .agenda__date i {
   margin-top: 5px;
   font-style: normal;

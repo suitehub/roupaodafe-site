@@ -1,1 +1,1637 @@
-<!doctype html><html lang="pt-BR"><head><meta charset="utf-8" /><meta http-equiv="refresh" content="0; url=/roupaodafe/" /><link rel="canonical" href="/roupaodafe/" /><title>Roupão da Fé</title></head><body></body></html>
+<!doctype html>
+<html lang="pt-BR" class="no-js">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Roupão da Fé — Uma história pode recomeçar</title>
+    <meta
+      name="description"
+      content="Uma experiência de scrollytelling do Projeto Roupão da Fé: acolhimento, esperança e reconexão espiritual. Conheça a história, participe e contribua."
+    />
+    <meta property="og:title" content="Roupão da Fé — Uma história pode recomeçar" />
+    <meta
+      property="og:description"
+      content="Um gesto de amor pode abrir caminho para o reencontro com a fé."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://roupaodafe.com/" />
+    <meta property="og:image" content="https://roupaodafe.com/assets/logo.png?v=3" />
+    <meta property="og:image:alt" content="Logo do Roupão da Fé" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://roupaodafe.com/assets/logo.png?v=3" />
+    <meta name="theme-color" content="#faf7f2" />
+    <link rel="canonical" href="https://roupaodafe.com/" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Manrope:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="vendor/lenis.css" />
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="icon" href="assets/logo.png?v=3" type="image/png" />
+    <link rel="apple-touch-icon" href="assets/logo.png?v=3" />
+    <script>
+      document.documentElement.classList.remove("no-js");
+      document.documentElement.classList.add("js");
+    </script>
+    <script>
+      /* Driver híbrido de animação.
+         O GSAP, o Lenis e o lazy-load das imagens dependem de rAF/visibilidade,
+         que o navegador suspende em documentos ocultos (aba em segundo plano,
+         painéis incorporados). Sem isso as animações travam e as fotos nunca
+         carregam — aqui o rAF cai para um timer quando o documento fica oculto. */
+      (function () {
+        var nativeRAF = window.requestAnimationFrame.bind(window);
+        var nativeCAF = window.cancelAnimationFrame.bind(window);
+        var hidden = document.visibilityState !== "visible";
+        var seq = 0;
+        var timers = {};
+        var lastY = -1;
+
+        window.requestAnimationFrame = function (cb) {
+          if (!hidden) return nativeRAF(cb);
+          var id = ++seq;
+          timers[id] = window.setTimeout(function () {
+            delete timers[id];
+            cb(performance.now());
+            /* Em documento oculto o navegador não dispara eventos de scroll
+               (os "scroll steps" do rendering não rodam). Sem eles o
+               ScrollTrigger e os listeners de rolagem nunca atualizam —
+               então repropagamos quando a posição muda. */
+            var y = window.pageYOffset || document.documentElement.scrollTop || 0;
+            if (y !== lastY) {
+              lastY = y;
+              window.dispatchEvent(new Event("scroll"));
+            }
+          }, 16);
+          return id;
+        };
+
+        window.cancelAnimationFrame = function (id) {
+          if (timers[id] !== undefined) {
+            window.clearTimeout(timers[id]);
+            delete timers[id];
+            return;
+          }
+          nativeCAF(id);
+        };
+
+        document.addEventListener("visibilitychange", function () {
+          hidden = document.visibilityState !== "visible";
+          if (!hidden && window.ScrollTrigger) window.ScrollTrigger.refresh();
+        });
+      })();
+    </script>
+  </head>
+
+  <body>
+    <!-- ======================= SPLASH · LOGO ANIMADA ======================= -->
+    <!-- a cruz surge de baixo para cima enquanto um anel se fecha (é o próprio
+         indicador de carga); depois a assinatura entra em cascata, o conjunto
+         dissolve e o pano creme sobe revelando o herói -->
+    <div class="splash" id="preloader" aria-hidden="true">
+      <span class="splash__glow"></span>
+      <span class="splash__grain"></span>
+
+      <div class="splash__stage">
+        <div class="splash__mark">
+          <span class="splash__halo" data-splash-halo></span>
+
+          <svg class="splash__ring" viewBox="0 0 180 180" data-splash-ring-wrap aria-hidden="true">
+            <circle class="splash__ring-track" cx="90" cy="90" r="80" />
+            <circle class="splash__ring-fill" cx="90" cy="90" r="80" stroke-dasharray="502.65" stroke-dashoffset="502.65" data-splash-ring />
+          </svg>
+
+          <span class="splash__clip" data-splash-clip>
+            <img class="splash__logo" src="assets/logo.png?v=3" alt="" width="424" height="424" />
+          </span>
+        </div>
+
+        <p class="splash__word" aria-hidden="true"><span class="splash__ltr" data-splash-ltr>R</span><span class="splash__ltr" data-splash-ltr>o</span><span class="splash__ltr" data-splash-ltr>u</span><span class="splash__ltr" data-splash-ltr>p</span><span class="splash__ltr" data-splash-ltr>ã</span><span class="splash__ltr" data-splash-ltr>o</span><span class="splash__ltr" data-splash-ltr> </span><i><span class="splash__ltr" data-splash-ltr>d</span><span class="splash__ltr" data-splash-ltr>a</span><span class="splash__ltr" data-splash-ltr> </span><span class="splash__ltr" data-splash-ltr>F</span><span class="splash__ltr" data-splash-ltr>é</span></i></p>
+
+        <p class="splash__tag" aria-hidden="true"><span data-splash-tag>Uma</span> <span data-splash-tag>história</span> <span data-splash-tag>pode</span> <span data-splash-tag>recomeçar</span></p>
+      </div>
+
+      <div class="splash__count" data-splash-count>
+        <span class="splash__count-lbl">carregando</span>
+        <span class="splash__count-num"><span id="preCount">0</span><i>%</i></span>
+      </div>
+
+      <div class="splash__track"><span class="splash__bar" id="preBar"></span></div>
+    </div>
+
+    <!-- ======================= BARRA DE PROGRESSO ======================= -->
+    <div class="topbar" aria-hidden="true"><span class="topbar__fill" id="topbarFill"></span></div>
+
+    <!-- ======================= HEADER ======================= -->
+    <header class="header" id="header">
+      <div class="header__inner">
+        <a class="brand" href="#inicio" aria-label="Roupão da Fé — início">
+          <img src="assets/logo.png?v=3" alt="Roupão da Fé" width="424" height="424" />
+          <span class="brand__text">Roupão <i>da Fé</i></span>
+        </a>
+
+        <nav class="header__nav" aria-label="Navegação principal">
+          <a href="#historia">História</a>
+          <a href="#simbolo">Símbolo</a>
+          <a href="#pregações">Pregações</a>
+          <a href="#quarteto">Quarteto JASD</a>
+          <a href="#historias">Histórias</a>
+          <a href="#participar">Participar</a>
+          <a href="#contato">Contato</a>
+        </nav>
+
+        <div class="header__actions">
+          <a class="btn btn--solid btn--sm" href="#doar">Quero contribuir</a>
+          <button class="menu-toggle" id="menuToggle" aria-expanded="false" aria-controls="menu">
+            <span class="menu-toggle__bars"><i></i><i></i></span>
+            <span class="menu-toggle__text">Índice</span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- ======================= MÚSICA DE FUNDO ======================= -->
+    <!-- a trilha começa sozinha na saída do splash; se o navegador exigir
+         um gesto, ela entra no primeiro toque/clique/tecla. O botão do canto
+         liga e muta, mostra a faixa no hover e, logo depois do splash, avisa
+         sozinho o que está tocando; o vídeo em tela cheia silencia enquanto
+         dura. Fica aqui (logo após o cabeçalho) para chegar cedo no Tab. -->
+    <audio id="trilha" src="assets/musica.mp3" loop preload="metadata"></audio>
+
+    <button
+      class="trilha is-off"
+      id="trilhaBtn"
+      type="button"
+      aria-pressed="false"
+      aria-label="Música de fundo"
+      title="Ligar música"
+    >
+      <span class="trilha__disc">
+        <svg class="trilha__icon" viewBox="0 0 24 24" aria-hidden="true">
+          <path class="trilha__speaker" d="M11 4.8 5.9 9.1H3.2v5.8h2.7L11 19.2z" />
+          <path class="trilha__onda" d="M15.2 9.4a3.9 3.9 0 0 1 0 5.2" />
+          <path class="trilha__onda" d="M17.6 7a7.2 7.2 0 0 1 0 10" />
+          <path class="trilha__corte" d="M4.4 19.6 19.6 4.4" />
+        </svg>
+      </span>
+
+      <!-- o texto sai do próprio botão: no hover (e no foco pelo teclado)
+           mostra a faixa; logo depois do splash ele aparece sozinho -->
+      <span class="trilha__texto" data-trilha-texto aria-hidden="true">
+        <span class="trilha__pill">
+          <span class="trilha__titulo" data-trilha-titulo>Canto de Vitória — Quarteto JASD</span>
+          <span class="trilha__aviso" data-trilha-aviso>
+            Tocando <b>Canto de Vitória</b> — Quarteto JASD<i>·</i> se quiser silenciar, clique aqui
+          </span>
+        </span>
+      </span>
+
+      <span class="trilha__status" role="status" aria-live="polite" data-trilha-status></span>
+    </button>
+
+    <!-- ======================= MENU MOBILE ======================= -->
+    <div class="menu" id="menu" aria-hidden="true">
+      <p class="menu__eyebrow">Índice</p>
+      <nav class="menu__nav" aria-label="Índice do site">
+        <a href="#inicio"><span>00</span> Início</a>
+        <a href="#historia"><span>01</span> A História</a>
+        <a href="#agenda"><span>02</span> Agenda do Mês</a>
+        <a href="#pregações"><span>03</span> Pregações</a>
+        <a href="#quarteto"><span>04</span> Quarteto JASD</a>
+        <a href="#simbolo"><span>05</span> Um Símbolo</a>
+        <a href="#historias"><span>06</span> Histórias</a>
+        <a href="#plantio"><span>07</span> Plantio de Igreja</a>
+        <a href="#participar"><span>08</span> Como Participar</a>
+        <a href="#doar"><span>09</span> Contribuir</a>
+        <a href="#contato"><span>10</span> Contato</a>
+      </nav>
+      <a class="menu__phone" href="tel:+5511987612710">(11) 98761-2710</a>
+    </div>
+
+    <main id="main">
+      <!-- ======================= 00 · HERÓI (só a imagem) ======================= -->
+      <!-- Sem texto, sem véu e sem filtro por cima: a foto do topo aparece
+           inteira (object-fit: contain) sobre um fundo desfocado da própria
+           imagem — assim a tela nunca fica com barra vazia nas bordas. -->
+      <section class="hero chapter" id="inicio" data-chapter="inicio">
+        <h1 class="sr-only">Roupão da Fé — Uma história pode recomeçar</h1>
+
+        <div class="hero__bg" data-hero-bg>
+          <!-- no celular o fundo desfocado não existe (a foto ocupa a largura
+               toda); o source vazio evita baixar a topo.png à toa -->
+          <picture class="hero__blur-picture">
+            <source
+              media="(max-width: 900px)"
+              srcset="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
+            />
+            <img
+              class="hero__bg-blur"
+              src="assets/topo.png"
+              alt=""
+              aria-hidden="true"
+              decoding="async"
+            />
+          </picture>
+          <!-- no celular entra a arte vertical (topomobile.png); no PC e nos
+               demais tamanhos continua a topo.png -->
+          <picture class="hero__picture">
+            <source
+              media="(max-width: 600px), (max-width: 900px) and (orientation: portrait)"
+              srcset="assets/topomobile.png"
+            />
+            <img
+              class="hero__bg-img"
+              src="assets/topo.png"
+              alt="Roupão da Fé"
+              width="1366"
+              height="768"
+              fetchpriority="high"
+              decoding="async"
+            />
+          </picture>
+        </div>
+      </section>
+
+      <!-- ======================= FAIXA MARQUEE ======================= -->
+      <div class="marquee" aria-hidden="true">
+        <div class="marquee__track">
+          <span>Acolhimento <i>·</i> Esperança <i>·</i> Recomeço <i>·</i> Um gesto de amor <i>·</i></span>
+          <span>Acolhimento <i>·</i> Esperança <i>·</i> Recomeço <i>·</i> Um gesto de amor <i>·</i></span>
+        </div>
+      </div>
+
+      <!-- ======================= SCROLLYTELLING HORIZONTAL · BATISMOS (cena fixa) =======================
+           Construção espelhada do Skiper30 (parallax de colunas) no eixo X: 3 faixas
+           de 3 fotos (as 9 imagens). Ao chegar aqui a tela trava (pin) e só as
+           faixas andam — da direita para a esquerda — enquanto o scroll desce. -->
+      <section class="batismo" id="batismo" aria-label="Registros de batismo">
+        <div class="batismo__stage" data-batismo>
+          <div class="batismo__row">
+            <div class="batismo__cell"><img src="assets/batismo1.png" alt="Registro de batismo 1" width="1672" height="941" decoding="async" /></div>
+            <div class="batismo__cell"><img src="assets/batismo2.png" alt="Registro de batismo 2" width="1663" height="946" decoding="async" /></div>
+            <div class="batismo__cell"><img src="assets/batismo3.png" alt="Registro de batismo 3" width="1670" height="941" decoding="async" /></div>
+          </div>
+
+          <div class="batismo__row">
+            <div class="batismo__cell"><img src="assets/batismo4.png" alt="Registro de batismo 4" width="1667" height="944" decoding="async" /></div>
+            <div class="batismo__cell"><img src="assets/batismo5.png" alt="Registro de batismo 5" width="615" height="423" decoding="async" /></div>
+            <div class="batismo__cell"><img src="assets/batismo6.png" alt="Registro de batismo 6" width="1212" height="624" decoding="async" /></div>
+          </div>
+
+          <div class="batismo__row">
+            <div class="batismo__cell"><img src="assets/batismo7.png" alt="Registro de batismo 7" width="1041" height="586" decoding="async" /></div>
+            <div class="batismo__cell"><img src="assets/batismo8.png" alt="Registro de batismo 8" width="1280" height="720" decoding="async" /></div>
+            <div class="batismo__cell"><img src="assets/batismo9.png" alt="Registro de batismo 9" width="1280" height="720" decoding="async" /></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ======================= VÍDEO · REEL ======================= -->
+      <!-- logo abaixo do carrossel de batismos: a miniatura roda em loop e o
+           rótulo "Reproduzir" acompanha o ponteiro; ao clicar, o vídeo cresce
+           da fresta central e ocupa a tela (clip-path) por cima da página, com
+           um aviso na margem para sair -->
+      <section class="reel" id="reel" data-reel aria-label="Vídeo do projeto">
+        <div class="reel__stage" data-reveal>
+          <p class="reel__hint">Clique no vídeo para reproduzir</p>
+
+          <a
+            class="reel__trigger"
+            href="assets/video.mp4"
+            data-reel-open
+            aria-label="Reproduzir o vídeo do projeto"
+          >
+            <span class="reel__cursor" data-reel-cursor aria-hidden="true">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M6.5 3.6l13.4 8.4-13.4 8.4z" />
+              </svg>
+              Reproduzir
+            </span>
+            <video
+              class="reel__thumb"
+              src="assets/video.mp4"
+              muted
+              playsinline
+              loop
+              preload="metadata"
+              aria-hidden="true"
+              tabindex="-1"
+            ></video>
+          </a>
+        </div>
+
+        <div class="reel-pop" data-reel-pop hidden>
+          <div class="reel-pop__veil" data-reel-veil data-reel-close aria-hidden="true"></div>
+
+          <div class="reel-pop__frame" data-reel-frame>
+            <media-controller class="reel-pop__player">
+              <video
+                class="reel-pop__video"
+                slot="media"
+                src="assets/video.mp4"
+                playsinline
+                preload="metadata"
+              ></video>
+
+              <button class="reel-pop__close" type="button" data-reel-close aria-label="Fechar o vídeo">
+                <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+                  <path d="M12 5.2v13.6M5.2 12h13.6" />
+                </svg>
+              </button>
+
+              <media-control-bar class="reel-pop__bar">
+                <media-play-button class="reel-pop__play"></media-play-button>
+                <media-time-range class="reel-pop__range"></media-time-range>
+                <media-mute-button class="reel-pop__mute"></media-mute-button>
+              </media-control-bar>
+            </media-controller>
+          </div>
+
+          <!-- aviso na margem: também fecha o vídeo -->
+          <button class="reel-pop__exit" type="button" data-reel-close>
+            Clique aqui para sair do vídeo
+          </button>
+        </div>
+      </section>
+
+      <!-- ======================= 01 · A HISTÓRIA (passos + visual fixo) ======================= -->
+      <section class="steps chapter" id="historia" data-chapter="historia">
+        <div class="steps__grid">
+          <div class="steps__visual" aria-hidden="true">
+            <div class="steps__sticky">
+              <figure class="shot is-active" data-visual="0">
+                <img src="assets/Imagem2.jpg" alt="" />
+              </figure>
+              <figure class="shot" data-visual="1">
+                <img src="assets/Imagem3.jpg" alt="" />
+              </figure>
+              <figure class="shot" data-visual="2">
+                <img src="assets/Imagem4.jpg" alt="" />
+              </figure>
+              <div class="steps__counter">
+                <span data-visual-count>01</span><i>/03</i>
+              </div>
+            </div>
+          </div>
+
+          <div class="steps__text">
+            <header class="scene__head">
+              <p class="eyebrow">01 — A história</p>
+              <h2 class="display" data-split>Mais do que um roupão.<br /><em>Um convite para voltar.</em></h2>
+              <p class="scene__lead" data-reveal>
+                Idealizado por Marcos Camilo em 2011, o Roupão da Fé nasceu do desejo de alcançar
+                pessoas que se afastaram da igreja — oferecendo acolhimento, amizade e um convite
+                para uma nova oportunidade de caminhar com Cristo.
+              </p>
+            </header>
+
+            <ol class="steps__list">
+              <li class="step" data-step="0">
+                <span class="step__n">01</span>
+                <h3>O início</h3>
+                <p>
+                  Em 2011, um desejo simples tornou-se projeto: alcançar quem se afastou. Um roupão
+                  comum virou símbolo de que ninguém foi esquecido.
+                </p>
+              </li>
+              <li class="step" data-step="1">
+                <span class="step__n">02</span>
+                <h3>Acolhimento e amizade</h3>
+                <p>
+                  Antes de qualquer palavra, a presença. Conversa, escuta e companhia — sem
+                  julgamentos, no tempo de cada pessoa.
+                </p>
+              </li>
+              <li class="step" data-step="2">
+                <span class="step__n">03</span>
+                <h3>Um convite para voltar</h3>
+                <p>
+                  O gesto abre porta: uma nova oportunidade de reconstruir vínculos e retomar o
+                  relacionamento com Cristo, respeitando o tempo de cada um.
+                </p>
+              </li>
+            </ol>
+          </div>
+
+          <!-- destaque em vídeo: o histórico do projeto em destaque,
+               no lugar do antigo "Conheça histórias de recomeço" -->
+          <a
+            class="spotlight"
+            href="https://youtu.be/WwRlk6016Z4"
+            target="_blank"
+            rel="noopener"
+            data-reveal
+          >
+            <span class="spotlight__tag">Em vídeo · YouTube</span>
+
+            <span class="spotlight__play" aria-hidden="true">
+              <i class="spotlight__ring"></i>
+              <i class="spotlight__ring spotlight__ring--b"></i>
+              <svg viewBox="0 0 24 24"><path d="M7.2 4.6 19 12 7.2 19.4z" /></svg>
+            </span>
+
+            <span class="spotlight__body">
+              <strong>Roupão da Fé — histórico do projeto</strong>
+              <span>
+                De 2011 aos dias de hoje: como nasceu a iniciativa, o que ela entregou e para
+                onde está indo.
+              </span>
+            </span>
+
+            <span class="spotlight__cta">
+              Assistir agora
+              <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
+                <path d="M4 12h15M13 6l6 6-6 6" />
+              </svg>
+            </span>
+          </a>
+        </div>
+      </section>
+
+      <!-- ======================= 02 · AGENDA DO MÊS ======================= -->
+      <!-- a agenda do mês em cards à esquerda e, à direita, a área de
+           agendamento de pregação (que leva ao contato e ao Pix) -->
+      <section class="agenda chapter" id="agenda" data-chapter="agenda">
+        <div class="agenda__inner">
+          <header class="scene__head agenda__head">
+            <p class="eyebrow">02 — Agenda do mês</p>
+            <h2 class="display" data-split>Onde o <em>Roupão da Fé</em> vai estar.</h2>
+            <p class="scene__lead" data-reveal>
+              Semanas de oração, cultos, encontros de entrega e operaciones de plantio. Confira o
+              calendário e reserve a sua igreja — a agenda é atualizada todo mês.
+            </p>
+          </header>
+
+          <div class="agenda__grid">
+            <!-- TROQUE AQUI as datas e os locais do mês: o primeiro número é
+                 o dia e o segundo é o mês (sigla). -->
+            <ol class="agenda__list">
+              <li class="agenda__item" data-reveal>
+                <span class="agenda__date"><b class="is-range">07–13</b><i>nov</i></span>
+                <span class="agenda__info">
+                  <span class="agenda__kind">Semana de oração</span>
+                  <strong>Cidade A. E. Carvalho</strong>
+                  <span class="agenda__meta">Sábado a sexta · manhã · São Paulo, SP</span>
+                </span>
+                <span class="agenda__tag">Semana</span>
+              </li>
+
+              <li class="agenda__item" data-reveal>
+                <span class="agenda__date"><b class="is-range">14–20</b><i>nov</i></span>
+                <span class="agenda__info">
+                  <span class="agenda__kind">Semana de oração</span>
+                  <strong>Vila Dirce</strong>
+                  <span class="agenda__meta">Sábado a sexta · manhã · Carapicuíba, SP</span>
+                </span>
+                <span class="agenda__tag">Semana</span>
+              </li>
+
+              <li class="agenda__item" data-reveal>
+                <span class="agenda__date"><b>21</b><i>nov</i></span>
+                <span class="agenda__info">
+                  <span class="agenda__kind">Culto de pregação</span>
+                  <strong>Gopouva</strong>
+                  <span class="agenda__meta">Sábado · manhã e tarde · Guarulhos, SP</span>
+                </span>
+                <span class="agenda__tag">Pregação</span>
+              </li>
+
+              <li class="agenda__item" data-reveal>
+                <span class="agenda__date"><b>28</b><i>nov</i></span>
+                <span class="agenda__info">
+                  <span class="agenda__kind">Culto de pregação</span>
+                  <strong>IASD Praia Grande</strong>
+                  <span class="agenda__meta">Sábado · manhã e tarde · Praia Grande, SP</span>
+                </span>
+                <span class="agenda__tag">Pregação</span>
+              </li>
+            </ol>
+
+            <aside class="agenda__book" data-reveal>
+              <p class="eyebrow eyebrow--light">Agendar</p>
+              <h3 class="agenda__book-title">Agende uma pregação</h3>
+              <p class="agenda__book-text">
+                Sua igreja ainda não recebeu o Roupão da Fé? Apresente o projeto, marque uma data
+                ou chame o Ministério para uma operação especial.
+              </p>
+
+              <ul class="agenda__need">
+                <li><span>01</span> Igreja e cidade</li>
+                <li><span>02</span> Data e horário</li>
+                <li><span>03</span> Tema ou pedido de oração</li>
+              </ul>
+
+              <div class="agenda__book-actions">
+                <a class="btn btn--light" href="tel:+5511987612710">
+                  <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
+                    <path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a1 1 0 0 1-1.1 1A16 16 0 0 1 4 5.1 1 1 0 0 1 5 4z" />
+                  </svg>
+                  Falar com a equipe
+                </a>
+              </div>
+            </aside>
+          </div>
+        </div>
+      </section>
+
+      <!-- ======================= 03 · PREGAÇÕES (cena travada) =======================
+           Mesma construção da cena do símbolo: a tela trava e as pregações
+           passam uma após a outra, da direita para a esquerda, enquanto a
+           rolagem desce. -->
+      <section class="hscene hscene--pregações chapter" id="pregações" data-chapter="pregações">
+        <!-- o título rola normalmente: ele sai de cena, os cartões sobem
+             até o meio da tela e só então a faixa trava -->
+        <header class="hscene__intro">
+          <p class="eyebrow">03 — Pregações</p>
+          <h2 class="display" data-split>Palavras que <em>acendem a fé.</em></h2>
+        </header>
+
+        <div class="hscene__viewport" data-hscene>
+          <div class="hscene__scroller">
+            <div class="hscene__track" data-htrack>
+              <article class="vid">
+                <a
+                  class="vid__thumb"
+                  href="https://www.youtube.com/watch?v=BQCylBkfx3Q"
+                  target="_blank"
+                  rel="noopener"
+                  aria-label="Assistir: Semana de Oração — Marcos Camilo — IASD Alvorada"
+                >
+                  <img
+                    src="https://img.youtube.com/vi/BQCylBkfx3Q/hqdefault.jpg"
+                    alt=""
+                    loading="lazy"
+                    decoding="async"
+                  />
+                  <span class="vid__play" aria-hidden="true">
+                    <svg viewBox="0 0 24 24"><path d="M7.2 4.6 19 12 7.2 19.4z" /></svg>
+                  </span>
+                  <span class="vid__badge">YouTube</span>
+                </a>
+
+                <div class="vid__body">
+                  <p class="vid__kind">Semana de Oração</p>
+                  <h3>Marcos Camilo — IASD Alvorada</h3>
+                  <p>
+                    Uma noite de oração e palavra para quem se afastou — o caminho de volta.
+                  </p>
+                  <a
+                    class="link-arrow"
+                    href="https://www.youtube.com/watch?v=BQCylBkfx3Q"
+                    target="_blank"
+                    rel="noopener"
+                  >
+                    Assistir no YouTube
+                    <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true">
+                      <path d="M4 12h15M13 6l6 6-6 6" />
+                    </svg>
+                  </a>
+                </div>
+              </article>
+
+              <article class="vid">
+                <a
+                  class="vid__thumb"
+                  href="https://www.youtube.com/watch?v=ihwgztkxwj8"
+                  target="_blank"
+                  rel="noopener"
+                  aria-label="Assistir: UNASP Hortolândia — Marcos Camilo — Roupão da Fé"
+                >
+                  <img
+                    src="https://img.youtube.com/vi/ihwgztkxwj8/hqdefault.jpg"
+                    alt=""
+                    loading="lazy"
+                    decoding="async"
+                  />
+                  <span class="vid__play" aria-hidden="true">
+                    <svg viewBox="0 0 24 24"><path d="M7.2 4.6 19 12 7.2 19.4z" /></svg>
+                  </span>
+                  <span class="vid__badge">YouTube</span>
+                </a>
+
+                <div class="vid__body">
+                  <p class="vid__kind">Culto de pregação</p>
+                  <h3>UNASP Hortolândia — Roupão da Fé</h3>
+                  <p>
+                    No maior seminário da UNAESP: entrega de roupões, música do Quarteto JASD e a
+                    palavra.
+                  </p>
+                  <a
+                    class="link-arrow"
+                    href="https://www.youtube.com/watch?v=ihwgztkxwj8"
+                    target="_blank"
+                    rel="noopener"
+                  >
+                    Assistir no YouTube
+                    <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true">
+                      <path d="M4 12h15M13 6l6 6-6 6" />
+                    </svg>
+                  </a>
+                </div>
+              </article>
+
+              <article class="vid">
+                <a
+                  class="vid__thumb"
+                  href="https://www.youtube.com/watch?v=2rBWYLoYktk"
+                  target="_blank"
+                  rel="noopener"
+                  aria-label="Assistir: Filho, não desista — Marcos Camilo — IASD Central Paulistana"
+                >
+                  <img
+                    src="https://img.youtube.com/vi/2rBWYLoYktk/hqdefault.jpg"
+                    alt=""
+                    loading="lazy"
+                    decoding="async"
+                  />
+                  <span class="vid__play" aria-hidden="true">
+                    <svg viewBox="0 0 24 24"><path d="M7.2 4.6 19 12 7.2 19.4z" /></svg>
+                  </span>
+                  <span class="vid__badge">YouTube</span>
+                </a>
+
+                <div class="vid__body">
+                  <p class="vid__kind">Mensagem</p>
+                  <h3>Filho, não desista</h3>
+                  <p>
+                    Marcos Camilo na IASD Central Paulistana: uma palavra para quem passou por
+                    dias difíceis.
+                  </p>
+                  <a
+                    class="link-arrow"
+                    href="https://www.youtube.com/watch?v=2rBWYLoYktk"
+                    target="_blank"
+                    rel="noopener"
+                  >
+                    Assistir no YouTube
+                    <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true">
+                      <path d="M4 12h15M13 6l6 6-6 6" />
+                    </svg>
+                  </a>
+                </div>
+              </article>
+
+              <article class="vid">
+                <a
+                  class="vid__thumb"
+                  href="https://www.youtube.com/watch?v=eZDRefKQ_Os"
+                  target="_blank"
+                  rel="noopener"
+                  aria-label="Assistir: Não olhe para trás — Marcos Camilo e Quarteto JASD"
+                >
+                  <img
+                    src="https://img.youtube.com/vi/eZDRefKQ_Os/hqdefault.jpg"
+                    alt=""
+                    loading="lazy"
+                    decoding="async"
+                  />
+                  <span class="vid__play" aria-hidden="true">
+                    <svg viewBox="0 0 24 24"><path d="M7.2 4.6 19 12 7.2 19.4z" /></svg>
+                  </span>
+                  <span class="vid__badge">YouTube</span>
+                </a>
+
+                <div class="vid__body">
+                  <p class="vid__kind">Encontro · Dia 1</p>
+                  <h3>Não olhe para trás</h3>
+                  <p>
+                    Marcos Camilo e o Quarteto JASD na abertura do encontro, em Itaquera.
+                  </p>
+                  <a
+                    class="link-arrow"
+                    href="https://www.youtube.com/watch?v=eZDRefKQ_Os"
+                    target="_blank"
+                    rel="noopener"
+                  >
+                    Assistir no YouTube
+                    <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true">
+                      <path d="M4 12h15M13 6l6 6-6 6" />
+                    </svg>
+                  </a>
+                </div>
+              </article>
+
+              <article class="vid">
+                <a
+                  class="vid__thumb"
+                  href="https://www.youtube.com/watch?v=4qQ4q9Y3swY"
+                  target="_blank"
+                  rel="noopener"
+                  aria-label="Assistir: Semana do Roupão da Fé — Marcos Camilo — IASD Osasco"
+                >
+                  <img
+                    src="https://img.youtube.com/vi/4qQ4q9Y3swY/hqdefault.jpg"
+                    alt=""
+                    loading="lazy"
+                    decoding="async"
+                  />
+                  <span class="vid__play" aria-hidden="true">
+                    <svg viewBox="0 0 24 24"><path d="M7.2 4.6 19 12 7.2 19.4z" /></svg>
+                  </span>
+                  <span class="vid__badge">YouTube</span>
+                </a>
+
+                <div class="vid__body">
+                  <p class="vid__kind">Semana do Roupão</p>
+                  <h3>Semana do Roupão da Fé</h3>
+                  <p>
+                    Uma semana inteira dedicada ao Roupão da Fé na IASD de Osasco.
+                  </p>
+                  <a
+                    class="link-arrow"
+                    href="https://www.youtube.com/watch?v=4qQ4q9Y3swY"
+                    target="_blank"
+                    rel="noopener"
+                  >
+                    Assistir no YouTube
+                    <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true">
+                      <path d="M4 12h15M13 6l6 6-6 6" />
+                    </svg>
+                  </a>
+                </div>
+              </article>
+
+              <article class="panel panel--cta">
+                <span class="panel__n">→</span>
+                <h3>Todas as pregações do Marcos Camilo.</h3>
+                <p>Reunidos no canal do Roupão da Fé, com registros de cada campo.</p>
+                <a
+                  class="btn btn--solid"
+                  href="https://www.youtube.com/results?search_query=Roup%C3%A3o+da+F%C3%A9+-+Marcos+Camilo"
+                  target="_blank"
+                  rel="noopener"
+                >
+                  Ver todas no YouTube
+                </a>
+              </article>
+            </div>
+          </div>
+
+          <div class="hscene__foot">
+            <button class="hscene__nav-btn" type="button" data-hprev aria-label="Ver pregações anteriores">
+              <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
+                <path d="M20 12H5M11 6l-6 6 6 6" />
+              </svg>
+            </button>
+            <div class="hscene__progress" aria-hidden="true"><span data-hprogress></span></div>
+            <button class="hscene__nav-btn" type="button" data-hnext aria-label="Ver próximas pregações">
+              <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
+                <path d="M4 12h15M13 6l6 6-6 6" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ======================= 04 · QUARTETO JASD (visual fixo) =======================
+           Mesma construção da história: o retrato do quarteto fica na tela
+           enquanto os três blocos de texto passam. -->
+      <section class="steps steps--quarteto chapter" id="quarteto" data-chapter="quarteto">
+        <div class="steps__grid">
+          <div class="steps__visual" aria-hidden="true">
+            <div class="steps__sticky">
+              <figure class="shot is-active" data-visual="0">
+                <img
+                  src="assets/jasd.png?v=2"
+                  alt="Quarteto JASD reunido após uma apresentação"
+                  width="941"
+                  height="941"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </figure>
+            </div>
+          </div>
+
+          <div class="steps__text">
+            <header class="scene__head">
+              <p class="eyebrow">04 — Quarteto JASD</p>
+              <h2 class="display" data-split>O <em>Quarteto JASD</em> canta a esperança.</h2>
+              <p class="scene__lead" data-reveal>
+                O Quarteto JASD (Ministério JASD) é um grupo vocal e musical voluntário da Igreja
+                Adventista do Sétimo Dia com mais de 35 anos de história dedicados à evangelização
+                e ao louvor cristão por meio da música.
+              </p>
+            </header>
+
+            <ol class="steps__list">
+              <li class="step" data-step="0">
+                <span class="step__n">01</span>
+                <h3>Mais de 35 anos de música</h3>
+                <p>
+                  Um grupo vocal e musical voluntário da Igreja Adventista do Sétimo Dia, dedicado
+                  à evangelização e ao louvor cristão por meio da música — do rehearsal ao palco,
+                  levando a esperança a quem precisa ouvi-la.
+                </p>
+              </li>
+
+              <li class="step" data-step="1">
+                <span class="step__n">02</span>
+                <h3>Ligado ao Roupão da Fé</h3>
+                <p>
+                  O Ministério JASD é vinculado ao Roupão da Fé: é o som que acompanha a entrega
+                  de cada roupão, a pregação em cada igreja e a história de quem volta para casa.
+                </p>
+              </li>
+
+              <li class="step" data-step="2">
+                <span class="step__n">03</span>
+                <h3>Onde o quarteto canta</h3>
+                <p>
+                  Semanas de oração, cultos, encontros de entrega e operações de plantio. Cada
+                  agenda é uma oportunidade de levar o Roupão da Fé até quem se afastou da
+                  igreja.
+                </p>
+              </li>
+            </ol>
+
+            <!-- agendar com o quarteto -->
+            <div class="quarteto__book" data-reveal>
+              <div class="quarteto__book-head">
+                <p class="eyebrow eyebrow--light">Agendar</p>
+                <h3>Leve o quarteto para sua igreja</h3>
+                <p>
+                  Conte o dia, o lugar e o formato do encontro. A gente confirma a agenda e
+                  prepara o repertório.
+                </p>
+              </div>
+
+              <div class="quarteto__book-actions">
+                <a class="btn btn--light" href="tel:+5511987612710">
+                  <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
+                    <path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a1 1 0 0 1-1.1 1A16 16 0 0 1 4 5.1 1 1 0 0 1 5 4z" />
+                  </svg>
+                  Agendar com o quarteto
+                </a>
+              </div>
+
+              <div class="quarteto__social">
+                <a
+                  href="https://www.facebook.com/quartetojasd/"
+                  target="_blank"
+                  rel="noopener"
+                  aria-label="Facebook do Quarteto JASD (abre em nova aba)"
+                  title="Quarteto JASD no Facebook"
+                >
+                  <svg class="fill" viewBox="0 0 24 24" width="19" height="19" aria-hidden="true">
+                    <path d="M15 3.5h-2.3A3.7 3.7 0 0 0 9 7.2v2.3H7v3.2h2v7.8h3.2v-7.8h2.3l.5-3.2h-2.8V7.4c0-.5.3-.8.9-.8H15V3.5z" />
+                  </svg>
+                </a>
+                <a
+                  href="https://www.instagram.com/ministeriojasd/"
+                  target="_blank"
+                  rel="noopener"
+                  aria-label="Instagram do Quarteto JASD (abre em nova aba)"
+                  title="@ministeriojasd no Instagram"
+                >
+                  <svg viewBox="0 0 24 24" width="19" height="19" aria-hidden="true">
+                    <rect x="3" y="3" width="18" height="18" rx="5" />
+                    <circle cx="12" cy="12" r="4" />
+                    <circle cx="17.3" cy="6.7" r="1.1" class="fill" />
+                  </svg>
+                </a>
+                <a
+                  href="https://www.youtube.com/channel/UCEQbV1p4V_eGNlok_eiZWng"
+                  target="_blank"
+                  rel="noopener"
+                  aria-label="YouTube do Quarteto JASD (abre em nova aba)"
+                  title="Quarteto JASD no YouTube"
+                >
+                  <svg viewBox="0 0 24 24" width="19" height="19" aria-hidden="true">
+                    <rect x="2.5" y="5.5" width="19" height="13" rx="4" />
+                    <path class="fill" d="M10.2 9.4l4.8 2.6-4.8 2.6z" />
+                  </svg>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ======================= 05 · UM SÍMBOLO (scroll horizontal) ======================= -->
+      <section class="hscene chapter" id="simbolo" data-chapter="simbolo">
+        <div class="hscene__viewport" data-hscene>
+          <div class="hscene__head">
+            <p class="eyebrow">05 — Um símbolo. Uma nova possibilidade.</p>
+            <h2 class="display" data-split>
+              Mais do que uma peça de roupa, um símbolo de
+              <em class="simbolo__palavra" data-simbolo-palavra>esperança.</em>
+            </h2>
+          </div>
+
+          <div class="hscene__scroller">
+            <div class="hscene__track" data-htrack>
+            <article class="panel">
+              <span class="panel__n">01</span>
+              <span class="panel__icon">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M12 21v-7.5" />
+                  <path d="M12 13.5C12 9.4 9.4 6.8 5.3 6.8c0 4.1 2.6 6.7 6.7 6.7z" />
+                  <path d="M12 11.4c0-4.1 2.6-6.7 6.7-6.7 0 4.1-2.6 6.7-6.7 6.7z" />
+                </svg>
+              </span>
+              <h3>Esperança</h3>
+              <p>Uma oportunidade de reconstruir vínculos e retomar o relacionamento com a fé.</p>
+              <span class="panel__rule"></span>
+            </article>
+
+            <article class="panel">
+              <span class="panel__n">02</span>
+              <span class="panel__icon">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path
+                    d="M12 20.5s-6.4-4.1-8.9-7.6C1.4 10.7 2 7.3 4.7 6c1.9-.9 4-.4 5.1 1.1l2.2 2 2.2-2c1.1-1.5 3.2-2 5.1-1.1 2.7 1.3 3.3 4.7 1.6 6.9-2.5 3.5-8.9 7.6-8.9 7.6z"
+                  />
+                </svg>
+              </span>
+              <h3>Acolhimento</h3>
+              <p>Um gesto que demonstra que aquela pessoa continua sendo lembrada.</p>
+              <span class="panel__rule"></span>
+            </article>
+
+            <article class="panel">
+              <span class="panel__n">03</span>
+              <span class="panel__icon">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M12 3v2.5M4.9 6.4l1.8 1.8M19.1 6.4l-1.8 1.8M2.5 17.5h19" />
+                  <path d="M6.5 17.5a5.5 5.5 0 0 1 11 0" />
+                  <path d="M3 21h18" />
+                </svg>
+              </span>
+              <h3>Recomeço</h3>
+              <p>
+                Um símbolo de uma nova etapa da caminhada espiritual, respeitando o tempo de cada
+                um.
+              </p>
+              <span class="panel__rule"></span>
+            </article>
+
+            <article class="panel panel--cta">
+              <span class="panel__n">→</span>
+              <h3>Fazer parte começa com um gesto.</h3>
+              <a class="btn btn--solid" href="#participar">Como participar</a>
+            </article>
+            </div>
+          </div>
+
+          <div class="hscene__foot">
+            <button class="hscene__nav-btn" type="button" data-hprev aria-label="Ver blocos anteriores">
+              <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
+                <path d="M20 12H5M11 6l-6 6 6 6" />
+              </svg>
+            </button>
+            <div class="hscene__progress" aria-hidden="true"><span data-hprogress></span></div>
+            <button class="hscene__nav-btn" type="button" data-hnext aria-label="Ver próximos blocos">
+              <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
+                <path d="M4 12h15M13 6l6 6-6 6" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ======================= 06 · HISTÓRIAS (galeria horizontal) ======================= -->
+      <section class="hscene hscene--gallery chapter" id="historias" data-chapter="historias">
+        <div class="hscene__viewport" data-hscene data-hscene-static>
+          <div class="hscene__head">
+            <p class="eyebrow">06 — Histórias que inspiram</p>
+            <h2 class="display" data-split>Cada recomeço tem sua <em>própria história.</em></h2>
+            <p class="scene__lead" data-reveal>
+              Pessoas reais, experiências verdadeiras e testemunhos de esperança — de quem decidiu
+              recomeçar e reencontrar seu caminho com Cristo.
+            </p>
+
+            <!-- testemunho em destaque (Eclair) — o relato completo entra
+                 depois; por enquanto, o espaço já está reservado -->
+            <article class="depo" data-reveal>
+              <span class="depo__media" aria-hidden="true">
+                <i class="depo__halo"></i>
+                <b class="depo__initial">E</b>
+              </span>
+
+              <div class="depo__body">
+                <p class="eyebrow">Testemunho · Eclair</p>
+                <h3 class="depo__quote">“Um roupão, uma igreja, uma vida que recomeça.”</h3>
+                <p class="depo__text">
+                  Eclair recebeu o Roupão da Fé e reencontrou o caminho de volta. O relato
+                  completo dele entra aqui em breve — enquanto isso, o testemunho de quem passou
+                  por esse recomeço segue abrindo portas para quem se afastou.
+                </p>
+                <span class="depo__status"><i></i> Testemunho completo em breve</span>
+              </div>
+            </article>
+          </div>
+
+          <div class="hscene__scroller">
+            <div class="hscene__track" data-htrack data-htrack-gallery>
+              <!-- fotos injetadas por js/main.js (mesma lista do projeto original) -->
+            </div>
+          </div>
+
+          <div class="hscene__foot">
+            <button class="hscene__nav-btn" type="button" data-hprev aria-label="Ver blocos anteriores">
+              <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
+                <path d="M20 12H5M11 6l-6 6 6 6" />
+              </svg>
+            </button>
+            <div class="hscene__progress" aria-hidden="true"><span data-hprogress></span></div>
+            <button class="hscene__nav-btn" type="button" data-hnext aria-label="Ver próximos blocos">
+              <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
+                <path d="M4 12h15M13 6l6 6-6 6" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ======================= 08 · PLANTIO DE IGREJA =======================
+           Duas histórias do trabalho em campo: o Reencontro em Montes Claros
+           e o Impacto Esperança em Capão Enéias (plantio de igreja). -->
+      <section class="plantio chapter" id="plantio" data-chapter="plantio">
+        <div class="plantio__inner">
+          <header class="scene__head">
+            <p class="eyebrow">07 — Plantio de igreja</p>
+            <h2 class="display" data-split>Onde a igreja <em>volta a nascer.</em></h2>
+            <p class="scene__lead" data-reveal>
+              Reencontros, impactos de esperança e o começo de novas comunidades de fé. O Roupão
+              da Fé não entrega só roupa: ele abre caminho para a igreja que ainda não existe.
+            </p>
+          </header>
+
+          <div class="plantio__cases">
+            <!-- ---------- Caso 1 · Reencontro (Montes Claros) ---------- -->
+            <article class="case" data-reveal>
+              <a
+                class="case__media"
+                href="https://youtu.be/JQnHjFTes7Y"
+                target="_blank"
+                rel="noopener"
+                aria-label="Assistir à reportagem do Reencontro em Montes Claros (abre em nova aba)"
+              >
+                <img
+                  src="https://img.youtube.com/vi/JQnHjFTes7Y/hqdefault.jpg"
+                  alt=""
+                  loading="lazy"
+                  decoding="async"
+                />
+                <span class="case__play" aria-hidden="true">
+                  <svg viewBox="0 0 24 24"><path d="M7.2 4.6 19 12 7.2 19.4z" /></svg>
+                </span>
+                <span class="case__badge">Reportagem</span>
+              </a>
+
+              <div class="case__body">
+                <p class="case__kind">Reencontro · Montes Claros (MG)</p>
+                <h3>REENCONTRO REÚNE PARTICIPANTES EM MONTES CLAROS</h3>
+                <p>
+                  A Igreja Adventista do Sétimo Dia realizou, em Montes Claros, mais uma edição do
+                  programa Reencontro, iniciativa voltada à aproximação e ao acolhimento de
+                  pessoas.
+                </p>
+                <p>
+                  A programação foi marcada por momentos de amizade, histórias e reencontros. Entre
+                  os participantes estava Sheyla, que viveu uma experiência especial durante o
+                  evento.
+                </p>
+                <p class="case__note">
+                  Confira na reportagem como foi o Reencontro e conheça a história de Sheyla.
+                </p>
+
+                <a
+                  class="btn btn--solid"
+                  href="https://youtu.be/JQnHjFTes7Y"
+                  target="_blank"
+                  rel="noopener"
+                >
+                  <svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true">
+                    <path d="M7.2 4.6 19 12 7.2 19.4z" />
+                  </svg>
+                  Assistir à reportagem
+                </a>
+              </div>
+            </article>
+
+            <!-- ---------- Caso 2 · Capão Enéias (plantio em andamento) ----------
+                 4 fotos do terreno (capao1–capao4). Cada uma amplia no hover e
+                 abre em tela cheia no clique/toque (lightbox).
+                 O texto é corrido: as falas do áudio viraram informação,
+                 e o Impacto Esperança aparece só como contexto. -->
+            <article class="case case--wide case--audio" data-reveal>
+              <div class="case__gallery">
+                <figure class="case__shot case__shot--1">
+                  <a
+                    class="case__open"
+                    href="assets/capao1.jpeg"
+                    data-zoom
+                    aria-label="Ampliar foto: terreno do plantio em Capão Enéias"
+                  >
+                    <img
+                      src="assets/capao1.jpeg"
+                      alt="Terreno do plantio de igreja em Capão Enéias"
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  </a>
+                </figure>
+                <figure class="case__shot case__shot--2">
+                  <a
+                    class="case__open"
+                    href="assets/capao2.jpeg"
+                    data-zoom
+                    aria-label="Ampliar foto: vista do terreno em Capão Enéias"
+                  >
+                    <img
+                      src="assets/capao2.jpeg"
+                      alt="Vista do terreno onde a igreja será plantada, em Capão Enéias"
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  </a>
+                </figure>
+                <figure class="case__shot case__shot--3">
+                  <a
+                    class="case__open"
+                    href="assets/capao3.jpg"
+                    data-zoom
+                    aria-label="Ampliar foto: frente do terreno em Capão Enéias"
+                  >
+                    <img
+                      src="assets/capao3.jpg"
+                      alt="Frente do terreno do plantio em Capão Enéias"
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  </a>
+                </figure>
+                <figure class="case__shot case__shot--4">
+                  <a
+                    class="case__open"
+                    href="assets/capao4.jpg"
+                    data-zoom
+                    aria-label="Ampliar foto: arredores do terreno em Capão Enéias"
+                  >
+                    <img
+                      src="assets/capao4.jpg"
+                      alt="Arredores do terreno do plantio em Capão Enéias"
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  </a>
+                </figure>
+              </div>
+
+              <div class="case__body">
+                <div class="case__text">
+                  <p class="case__kind">Plantio em andamento · Capão Enéias (MG)</p>
+                  <h3>Em andamento: Plantio de Igreja em Capão Enéias</h3>
+
+                  <p>
+                    Capão Enéias, no norte de Minas, é uma cidade onde a Igreja Adventista chegou a
+                    existir — e fechou. Hoje não há presença adventista no lugar, e cerca de 150
+                    ex-adventistas vivem ali, muitos deles sem nenhum vínculo com a igreja.
+                  </p>
+
+                  <p>
+                    A porta se abriu durante o Impacto Esperança, a operação da MMN que distribui
+                    livros e mobiliza as igrejas do campo. Foi ali que o pastor apresentou Capão
+                    Enéias ao projeto: o terreno já estava sendo preparado para o plantio de uma
+                    nova igreja, e o Roupão da Fé aceitou o desafio de mandar dois obreiros para
+                    revitalizar a comunidade.
+                  </p>
+
+                  <p>
+                    Desde então, o trabalho segue em andamento. Os dois obreiros acompanham as
+                    famílias, visitam os ex-adventistas que se afastaram e preparam o caminho para
+                    a igreja que vai nascer no terreno. A meta é simples e enorme ao mesmo tempo:
+                    reencontrar pessoas, cuidar de quem desistiu e deixar uma comunidade de fé em
+                    pé.
+                  </p>
+
+                  <p class="case__note">
+                    Registros do terreno e do plantio em Capão Enéias, norte de Minas.
+                  </p>
+                </div>
+
+                <aside class="case__facts">
+                  <p class="case__facts-title">Ficha do plantio</p>
+                  <dl>
+                    <div>
+                      <dt>Local</dt>
+                      <dd>Capão Enéias, norte de Minas</dd>
+                    </div>
+                    <div>
+                      <dt>Ex-adventistas na cidade</dt>
+                      <dd>cerca de <b>150</b></dd>
+                    </div>
+                    <div>
+                      <dt>Equipe enviada</dt>
+                      <dd><b>2 obreiros</b></dd>
+                    </div>
+                    <div>
+                      <dt>Status</dt>
+                      <dd><b>Em andamento</b></dd>
+                    </div>
+                    <div>
+                      <dt>Como começou</dt>
+                      <dd>Impacto Esperança (MMN) apresentou a cidade e preparou o terreno</dd>
+                    </div>
+                  </dl>
+                </aside>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- ======================= 08 · COMO PARTICIPAR (cena fixa navy) =======================
+           vem logo abaixo do plantio, fechando a parte de histórias e campo -->
+      <section class="navy chapter" id="participar" data-chapter="participar" data-phase-scene>
+        <div class="navy__bg" aria-hidden="true" data-parallax="60">
+          <img src="assets/bg4.jpg" alt="" />
+        </div>
+        <div class="navy__veil" aria-hidden="true"></div>
+        <div class="grain" aria-hidden="true"></div>
+
+        <div class="navy__sticky">
+          <div class="navy__inner">
+            <header class="navy__head">
+              <p class="eyebrow eyebrow--light">08 — Como participar</p>
+              <h2 class="display" data-split>Fazer parte começa com <em>um gesto.</em></h2>
+            </header>
+
+            <div class="phases">
+              <div class="phases__meta">
+                <p class="phases__count">
+                  <span data-phase-current>01</span><i>/04</i>
+                </p>
+                <div class="phases__dots" aria-hidden="true">
+                  <i class="is-active"></i><i></i><i></i><i></i>
+                </div>
+              </div>
+
+              <div class="phases__lists">
+                <div class="phase is-active" data-phase="0">
+                  <p class="phase__name">Preparar</p>
+                  <p class="phase__desc">
+                    Tudo começa na liderança: lançamento no concílio, dedicação dos roupões e uma
+                    base de oração.
+                  </p>
+                  <ol>
+                    <li><span>01</span> Lançamento no concílio</li>
+                    <li><span>02</span> Oração de dedicação</li>
+                    <li><span>03</span> Liste os amigos</li>
+                    <li><span>04</span> Jornada de oração</li>
+                    <li><span>05</span> Apoio da comissão</li>
+                  </ol>
+                </div>
+
+                <div class="phase" data-phase="1">
+                  <p class="phase__name">Planejar</p>
+                  <p class="phase__desc">
+                    Da encomenda dos roupões à capacitação das equipes — cada detalhe preparado com
+                    esmero.
+                  </p>
+                  <ol>
+                    <li><span>06</span> Alvo e encomenda</li>
+                    <li><span>07</span> Consagração na igreja</li>
+                    <li><span>08</span> Embalagem surpresa</li>
+                    <li><span>09</span> Capacitação</li>
+                  </ol>
+                </div>
+
+                <div class="phase" data-phase="2">
+                  <p class="phase__name">Alcançar</p>
+                  <p class="phase__desc">
+                    Visitação em duplas, falar menos e ouvir mais — e um convite cuidadoso para a
+                    semana de oração.
+                  </p>
+                  <ol>
+                    <li><span>10</span> Equipe de visitação</li>
+                    <li><span>11</span> Semana de oração</li>
+                    <li><span>12</span> Bom pregador</li>
+                    <li><span>13</span> Estratégias de convite</li>
+                  </ol>
+                </div>
+
+                <div class="phase" data-phase="3">
+                  <p class="phase__name">Celebrar</p>
+                  <p class="phase__desc">
+                    A celebração do batismo e o recém-converso que se torna missionário — enquanto
+                    houver roupão, haverá oportunidades de salvação.
+                  </p>
+                  <ol>
+                    <li><span>14</span> Jovens e desbravadores</li>
+                    <li><span>15</span> Todos os departamentos</li>
+                    <li><span>16</span> Celebração batismal</li>
+                    <li><span>17</span> Batizado vira missionário</li>
+                  </ol>
+                </div>
+              </div>
+            </div>
+
+            <div class="navy__foot">
+              <p class="navy__note">Do lançamento no concílio à celebração batismal — 17 etapas.</p>
+              <div class="navy__actions">
+                <a class="btn btn--light" href="manual.html">
+                  Ver as 17 etapas completas
+                  <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
+                    <path d="M4 12h15M13 6l6 6-6 6" />
+                  </svg>
+                </a>
+                <a class="btn btn--outline-light" href="tel:+5511987612710">(11) 98761-2710</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ======================= NÚMEROS + CITAÇÃO ======================= -->
+      <section class="numbers" id="numeros">
+        <div class="numbers__inner">
+          <div class="numbers__stat" data-reveal>
+            <p class="eyebrow">Vidas alcançadas pelo projeto</p>
+            <p class="numbers__value"><span id="statCount">38</span><i>mil</i></p>
+            <p class="numbers__label">pessoas levadas à decisão pelo batismo em todo o Brasil.</p>
+          </div>
+
+          <blockquote class="quote" data-reveal>
+            <svg class="quote__mark" viewBox="0 0 24 24" width="34" height="34" aria-hidden="true">
+              <path
+                d="M9.5 5.5C6.4 7 4.5 9.9 4.5 13.4c0 3 1.9 5.1 4.5 5.1 2.3 0 4-1.7 4-3.9 0-2.1-1.5-3.7-3.5-3.7-.4 0-.9.1-1.1.2.4-1.7 1.9-3.3 3.9-4.3l-2.8-1.3zm9.4 0c-3.1 1.5-5 4.4-5 7.9 0 3 1.9 5.1 4.5 5.1 2.3 0 4-1.7 4-3.9 0-2.1-1.5-3.7-3.5-3.7-.4 0-.9.1-1.1.2.4-1.7 1.9-3.3 3.9-4.3l-2.8-1.3z"
+              />
+            </svg>
+            <p>
+              “O cristão que não se envolve com a salvação de pessoas é como um bombeiro que corre
+              para um prédio em chamas preocupado com o quadro torto na parede.”
+            </p>
+            <footer>Dwight Moody</footer>
+          </blockquote>
+        </div>
+      </section>
+
+      <!-- ======================= 05 · CONTRIBUIR ======================= -->
+      <section class="donate chapter" id="doar" data-chapter="doar">
+        <div class="donate__bg" aria-hidden="true" data-parallax="50">
+          <img src="assets/bg5.jpg" alt="" />
+        </div>
+        <div class="donate__veil" aria-hidden="true"></div>
+
+        <div class="donate__inner">
+          <div class="donate__text">
+            <p class="eyebrow">09 — Ajude a levar esperança</p>
+            <h2 class="display" data-split>Sua contribuição <em>faz a diferença.</em></h2>
+            <p class="scene__lead" data-reveal>
+              Seu apoio ajuda na aquisição de roupões e nos materiais usados nas ações missionárias
+              do projeto. Escolha um valor e doe com cartão, Pix ou boleto pelo Mercado Pago — ou
+              use a chave Pix abaixo.
+            </p>
+            <ul class="donate__list" data-reveal>
+              <li>Roupões e embalagens para as entregas</li>
+              <li>Materiais das ações missionárias</li>
+              <li>Acompanhamento das famílias alcançadas</li>
+            </ul>
+          </div>
+
+          <div class="pix" data-reveal>
+            <form class="doacao" id="doacaoForm" novalidate>
+              <p class="pix__label">Doar com Mercado Pago</p>
+
+              <div class="doacao__valores" role="group" aria-label="Escolha o valor da doação">
+                <button class="doacao__valor" type="button" data-valor="20" aria-pressed="false">
+                  R$ 20
+                </button>
+                <button class="doacao__valor" type="button" data-valor="50" aria-pressed="false">
+                  R$ 50
+                </button>
+                <button class="doacao__valor" type="button" data-valor="100" aria-pressed="false">
+                  R$ 100
+                </button>
+                <button class="doacao__valor" type="button" data-valor="outro" aria-pressed="false">
+                  Outro valor
+                </button>
+              </div>
+
+              <div class="doacao__outro" id="doacaoOutro" hidden>
+                <label class="doacao__label" for="doacaoValor">Quanto você quer doar? (R$)</label>
+                <input
+                  class="doacao__input"
+                  id="doacaoValor"
+                  name="valor"
+                  type="text"
+                  inputmode="decimal"
+                  autocomplete="off"
+                  placeholder="0,00"
+                />
+              </div>
+
+              <p class="doacao__resumo">
+                Você vai doar <b id="doacaoTotal">R$ 0,00</b>
+              </p>
+
+              <button class="btn btn--solid btn--block doacao__btn" id="doacaoBtn" type="submit">
+                <span data-doacao-text>Doar com Mercado Pago</span>
+              </button>
+
+              <p class="doacao__msg" id="doacaoMsg" role="status" aria-live="polite"></p>
+
+              <p class="doacao__seguro">
+                Cartão, Pix ou boleto em ambiente seguro do Mercado Pago. Você é levado ao
+                checkout e volta para o site depois de pagar.
+              </p>
+            </form>
+
+            <div class="doacao__ou" aria-hidden="true"><span>ou doe direto pelo Pix</span></div>
+
+            <p class="pix__label">Chave Pix — telefone</p>
+            <div class="pix__row">
+              <span class="pix__key">(11) 98761-2710</span>
+              <button class="pix__copy" id="copyPix" aria-label="Copiar chave Pix">
+                <svg class="icon-copy" viewBox="0 0 24 24" width="17" height="17" aria-hidden="true">
+                  <rect x="9" y="9" width="11" height="11" rx="2" />
+                  <path d="M5 15V5a2 2 0 0 1 2-2h8" />
+                </svg>
+                <svg class="icon-check" viewBox="0 0 24 24" width="17" height="17" aria-hidden="true">
+                  <path d="M4 12.5l5.5 5.5L20 6.5" />
+                </svg>
+              </button>
+            </div>
+            <p class="pix__hint" id="copyHint">Toque no botão para copiar a chave.</p>
+            <div class="pix__beneficiary">
+              <p class="pix__label">Beneficiário</p>
+              <p class="pix__name">Marcos Camilo da Silva</p>
+            </div>
+            <a class="btn btn--ghost btn--block" href="tel:+5511987612710">Falar com a equipe</a>
+          </div>
+        </div>
+      </section>
+
+      <!-- ======================= 06 · CONTATO ======================= -->
+      <section class="finale chapter" id="contato" data-chapter="contato">
+        <div class="finale__bg" aria-hidden="true" data-parallax="70">
+          <img src="assets/bg6.jpg" alt="" />
+        </div>
+        <div class="finale__veil" aria-hidden="true"></div>
+        <div class="grain" aria-hidden="true"></div>
+
+        <div class="finale__inner">
+          <p class="eyebrow eyebrow--light">10 — Contato e participação</p>
+          <h2 class="display finale__title" data-split>Vamos fazer parte<br /><em>dessa missão?</em></h2>
+          <p class="finale__lead" data-reveal>
+            Quer conhecer melhor o projeto, participar de uma ação ou saber como sua igreja pode se
+            envolver?
+          </p>
+          <div class="finale__actions" data-reveal>
+            <a class="btn btn--light" href="tel:+5511987612710">
+              <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
+                <path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a1 1 0 0 1-1.1 1A16 16 0 0 1 4 5.1 1 1 0 0 1 5 4z" />
+              </svg>
+              (11) 98761-2710
+            </a>
+            <a class="btn btn--outline-light" href="manual.html">Ver orientações de participação</a>
+          </div>
+
+          <div class="finale__social" data-reveal>
+            <a
+              href="https://www.instagram.com/roupaodafe/"
+              target="_blank"
+              rel="noopener"
+              aria-label="Instagram do Roupão da Fé (abre em nova aba)"
+              title="@roupaodafe no Instagram"
+            >
+              <svg viewBox="0 0 24 24" width="19" height="19" aria-hidden="true">
+                <rect x="3" y="3" width="18" height="18" rx="5" />
+                <circle cx="12" cy="12" r="4" />
+                <circle cx="17.3" cy="6.7" r="1.1" class="fill" />
+              </svg>
+            </a>
+            <a
+              href="https://www.youtube.com/@roupaodafe"
+              target="_blank"
+              rel="noopener"
+              aria-label="YouTube do Roupão da Fé (abre em nova aba)"
+              title="@roupaodafe no YouTube"
+            >
+              <svg viewBox="0 0 24 24" width="19" height="19" aria-hidden="true">
+                <rect x="2.5" y="5.5" width="19" height="13" rx="4" />
+                <path d="M10.2 9.4l4.8 2.6-4.8 2.6z" />
+              </svg>
+            </a>
+            <a
+              href="https://www.facebook.com/roupaodafe/"
+              target="_blank"
+              rel="noopener"
+              aria-label="Facebook do Roupão da Fé (abre em nova aba)"
+              title="roupaodafe no Facebook"
+            >
+              <svg viewBox="0 0 24 24" width="19" height="19" aria-hidden="true">
+                <path d="M15 3.5h-2.3A3.7 3.7 0 0 0 9 7.2v2.3H7v3.2h2v7.8h3.2v-7.8h2.3l.5-3.2h-2.8V7.4c0-.5.3-.8.9-.8H15V3.5z" />
+              </svg>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <!-- ======================= RODAPÉ ======================= -->
+      <footer class="footer">
+        <div class="footer__marquee" aria-hidden="true">
+          <div class="marquee__track marquee__track--slow">
+            <span>Acolhimento não espera <i>·</i> Esperança se compartilha <i>·</i> Recomeço é hoje <i>·</i></span>
+            <span>Acolhimento não espera <i>·</i> Esperança se compartilha <i>·</i> Recomeço é hoje <i>·</i></span>
+          </div>
+        </div>
+
+        <div class="footer__inner">
+          <a class="brand" href="#inicio">
+            <img src="assets/logo.png?v=3" alt="Roupão da Fé" width="424" height="424" />
+            <span class="brand__text">Roupão <i>da Fé</i></span>
+          </a>
+
+          <nav class="footer__nav" aria-label="Rodapé">
+            <a href="#historia">História</a>
+            <a href="#simbolo">Símbolo</a>
+            <a href="#participar">Participar</a>
+            <a href="#pregações">Pregações</a>
+            <a href="#quarteto">Quarteto JASD</a>
+            <a href="#historias">Histórias</a>
+            <a href="#plantio">Plantio</a>
+            <a href="#doar">Contribuir</a>
+            <a href="#contato">Contato</a>
+          </nav>
+
+          <div class="footer__legal">
+            <p>Uma iniciativa de acolhimento, esperança e renovação espiritual.</p>
+            <p>© 2026 Roupão da Fé</p>
+          </div>
+        </div>
+      </footer>
+    </main>
+
+    <!-- FOTO AMPLIADA (lightbox das fotos do plantio) -->
+    <!-- volta do checkout: confirmação da doação -->
+    <dialog
+      class="doacao-ok"
+      id="doacaoOk"
+      aria-labelledby="doacaoOkTitulo"
+      aria-describedby="doacaoOkTexto"
+    >
+      <div class="doacao-ok__card">
+        <span class="doacao-ok__icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="30" height="30">
+            <path
+              id="doacaoOkIcone"
+              d="M4 12.5l5.5 5.5L20 6.5"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.1"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+        </span>
+
+        <p class="doacao-ok__eyebrow" id="doacaoOkEyebrow">Doação aprovada</p>
+        <h2 class="doacao-ok__title" id="doacaoOkTitulo">Doação aprovada!</h2>
+        <p class="doacao-ok__text" id="doacaoOkTexto">
+          Muito obrigado por contribuir com o Roupão da Fé. Sua doação vai ajudar a levar
+          esperança a mais famílias.
+        </p>
+
+        <div class="doacao-ok__actions">
+          <button class="btn btn--solid" type="button" id="doacaoOkPrincipal" autofocus>
+            Voltar ao site
+          </button>
+          <button class="btn btn--ghost" type="button" id="doacaoOkOutra">
+            Fazer outra doação
+          </button>
+        </div>
+
+        <p class="doacao-ok__note" id="doacaoOkNota">
+          O comprovante fica disponível na sua conta do Mercado Pago.
+        </p>
+      </div>
+    </dialog>
+
+    <div class="lightbox" id="lightbox" hidden>
+      <div class="lightbox__veil" data-close></div>
+
+      <figure class="lightbox__figure">
+        <img alt="" decoding="async" />
+      </figure>
+
+      <button class="lightbox__close" type="button" data-close aria-label="Fechar imagem ampliada">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M6 6l12 12M18 6 6 18" />
+        </svg>
+      </button>
+    </div>
+
+    <script src="vendor/gsap.min.js"></script>
+    <script src="vendor/ScrollTrigger.min.js"></script>
+    <script src="vendor/lenis.min.js"></script>
+    <script src="vendor/media-chrome.js"></script>
+    <script src="js/main.js"></script>
+  </body>
+</html>

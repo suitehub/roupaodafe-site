@@ -2505,6 +2505,11 @@ button:focus-visible {
   color: color-mix(in srgb, #fff 65%, transparent);
 }
 
+.manual-card footer.manual-card__nota {
+  margin-top: 0;
+  margin-bottom: 1rem;
+}
+
 .manual-stat {
   margin-top: 2.4rem;
   padding: clamp(30px, 4vw, 48px);

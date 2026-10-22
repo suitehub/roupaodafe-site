@@ -2,6 +2,11 @@
 <html lang="pt-BR" class="no-js">
   <head>
     <meta charset="utf-8" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; base-uri 'none'; object-src 'none'; frame-src 'none'; form-action 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://img.youtube.com; media-src 'self'; connect-src 'self' https://roupaodafe-doacoes-suite-hub1.vercel.app; manifest-src 'self'; upgrade-insecure-requests"
+    />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Roupão da Fé — Uma história pode recomeçar</title>
     <meta
@@ -29,61 +34,11 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="vendor/lenis.css" />
-    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/style.css?v=4" />
     <link rel="icon" href="assets/logo.png?v=3" type="image/png" />
     <link rel="apple-touch-icon" href="assets/logo.png?v=3" />
-    <script>
-      document.documentElement.classList.remove("no-js");
-      document.documentElement.classList.add("js");
-    </script>
-    <script>
-      /* Driver híbrido de animação.
-         O GSAP, o Lenis e o lazy-load das imagens dependem de rAF/visibilidade,
-         que o navegador suspende em documentos ocultos (aba em segundo plano,
-         painéis incorporados). Sem isso as animações travam e as fotos nunca
-         carregam — aqui o rAF cai para um timer quando o documento fica oculto. */
-      (function () {
-        var nativeRAF = window.requestAnimationFrame.bind(window);
-        var nativeCAF = window.cancelAnimationFrame.bind(window);
-        var hidden = document.visibilityState !== "visible";
-        var seq = 0;
-        var timers = {};
-        var lastY = -1;
-
-        window.requestAnimationFrame = function (cb) {
-          if (!hidden) return nativeRAF(cb);
-          var id = ++seq;
-          timers[id] = window.setTimeout(function () {
-            delete timers[id];
-            cb(performance.now());
-            /* Em documento oculto o navegador não dispara eventos de scroll
-               (os "scroll steps" do rendering não rodam). Sem eles o
-               ScrollTrigger e os listeners de rolagem nunca atualizam —
-               então repropagamos quando a posição muda. */
-            var y = window.pageYOffset || document.documentElement.scrollTop || 0;
-            if (y !== lastY) {
-              lastY = y;
-              window.dispatchEvent(new Event("scroll"));
-            }
-          }, 16);
-          return id;
-        };
-
-        window.cancelAnimationFrame = function (id) {
-          if (timers[id] !== undefined) {
-            window.clearTimeout(timers[id]);
-            delete timers[id];
-            return;
-          }
-          nativeCAF(id);
-        };
-
-        document.addEventListener("visibilitychange", function () {
-          hidden = document.visibilityState !== "visible";
-          if (!hidden && window.ScrollTrigger) window.ScrollTrigger.refresh();
-        });
-      })();
-    </script>
+    <script src="js/boot.js?v=4"></script>
+    <script src="js/raf-driver.js?v=4"></script>
   </head>
 
   <body>
@@ -422,7 +377,7 @@
             class="spotlight"
             href="https://youtu.be/WwRlk6016Z4"
             target="_blank"
-            rel="noopener"
+            rel="noopener noreferrer"
             data-reveal
           >
             <span class="spotlight__tag">Em vídeo · YouTube</span>
@@ -557,7 +512,7 @@
                   class="vid__thumb"
                   href="https://www.youtube.com/watch?v=BQCylBkfx3Q"
                   target="_blank"
-                  rel="noopener"
+                  rel="noopener noreferrer"
                   aria-label="Assistir: Semana de Oração — Marcos Camilo — IASD Alvorada"
                 >
                   <img
@@ -582,7 +537,7 @@
                     class="link-arrow"
                     href="https://www.youtube.com/watch?v=BQCylBkfx3Q"
                     target="_blank"
-                    rel="noopener"
+                    rel="noopener noreferrer"
                   >
                     Assistir no YouTube
                     <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true">
@@ -597,7 +552,7 @@
                   class="vid__thumb"
                   href="https://www.youtube.com/watch?v=ihwgztkxwj8"
                   target="_blank"
-                  rel="noopener"
+                  rel="noopener noreferrer"
                   aria-label="Assistir: UNASP Hortolândia — Marcos Camilo — Roupão da Fé"
                 >
                   <img
@@ -623,7 +578,7 @@
                     class="link-arrow"
                     href="https://www.youtube.com/watch?v=ihwgztkxwj8"
                     target="_blank"
-                    rel="noopener"
+                    rel="noopener noreferrer"
                   >
                     Assistir no YouTube
                     <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true">
@@ -638,7 +593,7 @@
                   class="vid__thumb"
                   href="https://www.youtube.com/watch?v=2rBWYLoYktk"
                   target="_blank"
-                  rel="noopener"
+                  rel="noopener noreferrer"
                   aria-label="Assistir: Filho, não desista — Marcos Camilo — IASD Central Paulistana"
                 >
                   <img
@@ -664,7 +619,7 @@
                     class="link-arrow"
                     href="https://www.youtube.com/watch?v=2rBWYLoYktk"
                     target="_blank"
-                    rel="noopener"
+                    rel="noopener noreferrer"
                   >
                     Assistir no YouTube
                     <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true">
@@ -679,7 +634,7 @@
                   class="vid__thumb"
                   href="https://www.youtube.com/watch?v=eZDRefKQ_Os"
                   target="_blank"
-                  rel="noopener"
+                  rel="noopener noreferrer"
                   aria-label="Assistir: Não olhe para trás — Marcos Camilo e Quarteto JASD"
                 >
                   <img
@@ -704,7 +659,7 @@
                     class="link-arrow"
                     href="https://www.youtube.com/watch?v=eZDRefKQ_Os"
                     target="_blank"
-                    rel="noopener"
+                    rel="noopener noreferrer"
                   >
                     Assistir no YouTube
                     <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true">
@@ -719,7 +674,7 @@
                   class="vid__thumb"
                   href="https://www.youtube.com/watch?v=4qQ4q9Y3swY"
                   target="_blank"
-                  rel="noopener"
+                  rel="noopener noreferrer"
                   aria-label="Assistir: Semana do Roupão da Fé — Marcos Camilo — IASD Osasco"
                 >
                   <img
@@ -744,7 +699,7 @@
                     class="link-arrow"
                     href="https://www.youtube.com/watch?v=4qQ4q9Y3swY"
                     target="_blank"
-                    rel="noopener"
+                    rel="noopener noreferrer"
                   >
                     Assistir no YouTube
                     <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true">
@@ -762,7 +717,7 @@
                   class="btn btn--solid"
                   href="https://www.youtube.com/results?search_query=Roup%C3%A3o+da+F%C3%A9+-+Marcos+Camilo"
                   target="_blank"
-                  rel="noopener"
+                  rel="noopener noreferrer"
                 >
                   Ver todas no YouTube
                 </a>
@@ -872,7 +827,7 @@
                 <a
                   href="https://www.facebook.com/quartetojasd/"
                   target="_blank"
-                  rel="noopener"
+                  rel="noopener noreferrer"
                   aria-label="Facebook do Quarteto JASD (abre em nova aba)"
                   title="Quarteto JASD no Facebook"
                 >
@@ -883,7 +838,7 @@
                 <a
                   href="https://www.instagram.com/ministeriojasd/"
                   target="_blank"
-                  rel="noopener"
+                  rel="noopener noreferrer"
                   aria-label="Instagram do Quarteto JASD (abre em nova aba)"
                   title="@ministeriojasd no Instagram"
                 >
@@ -896,7 +851,7 @@
                 <a
                   href="https://www.youtube.com/channel/UCEQbV1p4V_eGNlok_eiZWng"
                   target="_blank"
-                  rel="noopener"
+                  rel="noopener noreferrer"
                   aria-label="YouTube do Quarteto JASD (abre em nova aba)"
                   title="Quarteto JASD no YouTube"
                 >
@@ -1068,7 +1023,7 @@
                 class="case__media"
                 href="https://youtu.be/JQnHjFTes7Y"
                 target="_blank"
-                rel="noopener"
+                rel="noopener noreferrer"
                 aria-label="Assistir à reportagem do Reencontro em Montes Claros (abre em nova aba)"
               >
                 <img
@@ -1104,7 +1059,7 @@
                   class="btn btn--solid"
                   href="https://youtu.be/JQnHjFTes7Y"
                   target="_blank"
-                  rel="noopener"
+                  rel="noopener noreferrer"
                 >
                   <svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true">
                     <path d="M7.2 4.6 19 12 7.2 19.4z" />
@@ -1497,7 +1452,7 @@
             <a
               href="https://www.instagram.com/roupaodafe/"
               target="_blank"
-              rel="noopener"
+              rel="noopener noreferrer"
               aria-label="Instagram do Roupão da Fé (abre em nova aba)"
               title="@roupaodafe no Instagram"
             >
@@ -1510,7 +1465,7 @@
             <a
               href="https://www.youtube.com/@roupaodafe"
               target="_blank"
-              rel="noopener"
+              rel="noopener noreferrer"
               aria-label="YouTube do Roupão da Fé (abre em nova aba)"
               title="@roupaodafe no YouTube"
             >
@@ -1522,7 +1477,7 @@
             <a
               href="https://www.facebook.com/roupaodafe/"
               target="_blank"
-              rel="noopener"
+              rel="noopener noreferrer"
               aria-label="Facebook do Roupão da Fé (abre em nova aba)"
               title="roupaodafe no Facebook"
             >
@@ -1632,6 +1587,6 @@
     <script src="vendor/ScrollTrigger.min.js"></script>
     <script src="vendor/lenis.min.js"></script>
     <script src="vendor/media-chrome.js"></script>
-    <script src="js/main.js"></script>
+    <script src="js/main.js?v=4"></script>
   </body>
 </html>

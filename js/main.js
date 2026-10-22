@@ -1943,8 +1943,24 @@
 
     var brl = new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" });
 
+    /* Somente o checkout oficial do Mercado Pago pode ser aberto a partir da
+       resposta da API (evita redirecionamento para um domínio estranho). */
+    function checkoutSeguro(link) {
+      try {
+        var u = new URL(String(link || ""));
+        if (u.protocol !== "https:") return "";
+        if (!/^(www\.|sandbox\.)?mercadopago\.com\.br$/i.test(u.hostname)) return "";
+        return u.toString();
+      } catch (err) {
+        return "";
+      }
+    }
+
     function configurado() {
-      return MP_ENDPOINT.indexOf("SEU-PROJETO") === -1 && /^https?:\/\//.test(MP_ENDPOINT);
+      return (
+        MP_ENDPOINT.indexOf("SEU-PROJETO") === -1 &&
+        /^https:\/\//.test(MP_ENDPOINT)
+      );
     }
 
     function setMsg(texto, tipo) {
@@ -2067,10 +2083,20 @@
       if (btnText) btnText.textContent = "Abrindo o Mercado Pago…";
       setMsg("");
 
+      var controlador =
+        typeof AbortController !== "undefined" ? new AbortController() : null;
+      var limite = window.setTimeout(function () {
+        if (controlador) controlador.abort();
+      }, 15000);
+
       fetch(MP_ENDPOINT, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ amount: n }),
+        cache: "no-store",
+        credentials: "omit",
+        referrerPolicy: "no-referrer",
+        signal: controlador ? controlador.signal : undefined,
       })
         .then(function (resposta) {
           return resposta
@@ -2083,11 +2109,13 @@
             });
         })
         .then(function (res) {
-          var link = res.dados && (res.dados.init_point || res.dados.sandbox_init_point);
+          window.clearTimeout(limite);
+          var link = checkoutSeguro(res.dados && res.dados.init_point);
           if (!link) throw { status: res.status, dados: res.dados };
           window.location.href = link;
         })
         .catch(function (err) {
+          window.clearTimeout(limite);
           enviando = false;
           if (btn) btn.disabled = false;
           if (btnText) btnText.textContent = "Doar com Mercado Pago";

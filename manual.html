@@ -2,6 +2,11 @@
 <html lang="pt-BR" class="no-js">
   <head>
     <meta charset="utf-8" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; base-uri 'none'; object-src 'none'; frame-src 'none'; form-action 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://img.youtube.com; media-src 'self'; connect-src 'self' https://roupaodafe-doacoes-suite-hub1.vercel.app; manifest-src 'self'; upgrade-insecure-requests"
+    />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Como participar — Roupão da Fé</title>
     <meta
@@ -25,55 +30,11 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="vendor/lenis.css" />
-    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/style.css?v=4" />
     <link rel="icon" href="assets/logo.png?v=3" type="image/png" />
     <link rel="apple-touch-icon" href="assets/logo.png?v=3" />
-    <script>
-      document.documentElement.classList.remove("no-js");
-      document.documentElement.classList.add("js");
-    </script>
-    <script>
-      /* Driver híbrido de animação (ver index.html): rAF cai para timer
-         quando o documento fica oculto, senão GSAP/Lenis/lazy-load travam. */
-      (function () {
-        var nativeRAF = window.requestAnimationFrame.bind(window);
-        var nativeCAF = window.cancelAnimationFrame.bind(window);
-        var hidden = document.visibilityState !== "visible";
-        var seq = 0;
-        var timers = {};
-        var lastY = -1;
-
-        window.requestAnimationFrame = function (cb) {
-          if (!hidden) return nativeRAF(cb);
-          var id = ++seq;
-          timers[id] = window.setTimeout(function () {
-            delete timers[id];
-            cb(performance.now());
-            /* Repropaga o scroll em documento oculto (ver index.html). */
-            var y = window.pageYOffset || document.documentElement.scrollTop || 0;
-            if (y !== lastY) {
-              lastY = y;
-              window.dispatchEvent(new Event("scroll"));
-            }
-          }, 16);
-          return id;
-        };
-
-        window.cancelAnimationFrame = function (id) {
-          if (timers[id] !== undefined) {
-            window.clearTimeout(timers[id]);
-            delete timers[id];
-            return;
-          }
-          nativeCAF(id);
-        };
-
-        document.addEventListener("visibilitychange", function () {
-          hidden = document.visibilityState !== "visible";
-          if (!hidden && window.ScrollTrigger) window.ScrollTrigger.refresh();
-        });
-      })();
-    </script>
+    <script src="js/boot.js?v=4"></script>
+    <script src="js/raf-driver.js?v=4"></script>
   </head>
 
   <body>
@@ -378,7 +339,7 @@
         </ol>
 
         <blockquote class="manual-card" data-reveal>
-          <footer style="margin-top: 0; margin-bottom: 1rem">Importante</footer>
+          <footer class="manual-card__nota">Importante</footer>
           <p>O recém-converso deverá ser acompanhado e treinado para ser um missionário também.</p>
           <footer>Enquanto houver roupão, haverá oportunidades de salvação.</footer>
         </blockquote>
@@ -419,6 +380,6 @@
     <script src="vendor/gsap.min.js"></script>
     <script src="vendor/ScrollTrigger.min.js"></script>
     <script src="vendor/lenis.min.js"></script>
-    <script src="js/main.js"></script>
+    <script src="js/main.js?v=4"></script>
   </body>
 </html>

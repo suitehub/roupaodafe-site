@@ -1568,6 +1568,50 @@
     </main>
 
     <!-- FOTO AMPLIADA (lightbox das fotos do plantio) -->
+    <!-- volta do checkout: confirmação da doação -->
+    <dialog
+      class="doacao-ok"
+      id="doacaoOk"
+      aria-labelledby="doacaoOkTitulo"
+      aria-describedby="doacaoOkTexto"
+    >
+      <div class="doacao-ok__card">
+        <span class="doacao-ok__icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="30" height="30">
+            <path
+              id="doacaoOkIcone"
+              d="M4 12.5l5.5 5.5L20 6.5"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.1"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+        </span>
+
+        <p class="doacao-ok__eyebrow" id="doacaoOkEyebrow">Doação aprovada</p>
+        <h2 class="doacao-ok__title" id="doacaoOkTitulo">Doação aprovada!</h2>
+        <p class="doacao-ok__text" id="doacaoOkTexto">
+          Muito obrigado por contribuir com o Roupão da Fé. Sua doação vai ajudar a levar
+          esperança a mais famílias.
+        </p>
+
+        <div class="doacao-ok__actions">
+          <button class="btn btn--solid" type="button" id="doacaoOkPrincipal" autofocus>
+            Voltar ao site
+          </button>
+          <button class="btn btn--ghost" type="button" id="doacaoOkOutra">
+            Fazer outra doação
+          </button>
+        </div>
+
+        <p class="doacao-ok__note" id="doacaoOkNota">
+          O comprovante fica disponível na sua conta do Mercado Pago.
+        </p>
+      </div>
+    </dialog>
+
     <div class="lightbox" id="lightbox" hidden>
       <div class="lightbox__veil" data-close></div>
 

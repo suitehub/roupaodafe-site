@@ -2057,6 +2057,11 @@
         return;
       }
 
+      /* guarda o valor para a mensagem de confirmação, na volta do checkout */
+      try {
+        sessionStorage.setItem("doacao:valor", String(n));
+      } catch (err) {}
+
       enviando = true;
       if (btn) btn.disabled = true;
       if (btnText) btnText.textContent = "Abrindo o Mercado Pago…";
@@ -2104,55 +2109,238 @@
       retorno = "";
     }
 
-    var textos = {
-      sucesso: ["Doação aprovada. Muito obrigado por apoiar essa missão!", "ok"],
-      pendente: ["Doação registrada e aguardando a confirmação do pagamento. Obrigado!", "ok"],
-      falha: ["O pagamento não foi concluído. Se quiser, tente novamente.", "error"],
+    var dialogo = document.getElementById("doacaoOk");
+    var dialogoEyebrow = document.getElementById("doacaoOkEyebrow");
+    var dialogoTitulo = document.getElementById("doacaoOkTitulo");
+    var dialogoTexto = document.getElementById("doacaoOkTexto");
+    var dialogoNota = document.getElementById("doacaoOkNota");
+    var dialogoIcone = document.getElementById("doacaoOkIcone");
+    var dialogoPrincipal = document.getElementById("doacaoOkPrincipal");
+    var dialogoOutra = document.getElementById("doacaoOkOutra");
+    var dialogoAberto = false;
+    var estadoAtual = "";
+
+    var ICONES = {
+      sucesso: "M4 12.5l5.5 5.5L20 6.5",
+      pendente: "M12 4a8 8 0 1 0 0 16 8 8 0 0 0 0-16M12 8v4.6l3 1.8",
+      falha: "M12 7.5v5.8M12 16.7v.01",
     };
 
-    if (retorno && textos[retorno]) {
-      var t = textos[retorno];
-      setMsg(t[0], t[1]);
-      if (input) {
-        /* limpa o valor para não repetir sem querer */
-        input.value = "";
+    function textosDoacao(estado, valor) {
+      var quantia = valor > 0 ? "<b>" + brl.format(valor) + "</b>" : "";
+
+      if (estado === "sucesso") {
+        return {
+          eyebrow: "Doação aprovada",
+          titulo: "Doação aprovada!",
+          texto:
+            "Muito obrigado por contribuir com o Roupão da Fé. Sua doação" +
+            (quantia ? " de " + quantia : "") +
+            " foi aprovada e vai ajudar a levar esperança a mais famílias.",
+          nota: "O comprovante fica disponível na sua conta do Mercado Pago.",
+          inline: "Doação aprovada. Muito obrigado por contribuir com o Roupão da Fé!",
+          tipo: "ok",
+        };
       }
 
-      /* com o splash na frente, o salto do #doar pode se perder:
-         refaz o caminho quando o splash sai */
-      var irParaDoacao = function () {
-        var alvo = document.getElementById("doar");
-        if (!alvo) return;
-        var top = alvo.getBoundingClientRect().top + window.pageYOffset;
-        window.scrollTo({ top: Math.max(0, top), behavior: "auto" });
+      if (estado === "pendente") {
+        return {
+          eyebrow: "Doação registrada",
+          titulo: "Falta pouco!",
+          texto:
+            "Recebemos sua doação" +
+            (quantia ? " de " + quantia : "") +
+            " e o Mercado Pago ainda está confirmando o pagamento. Assim que for aprovado, ela vai ajudar a levar esperança a mais famílias.",
+          nota:
+            "Pix e boleto podem levar alguns minutos para confirmar. O comprovante fica na sua conta do Mercado Pago.",
+          inline: "Doação registrada e aguardando a confirmação do pagamento. Obrigado!",
+          tipo: "ok",
+        };
+      }
+
+      return {
+        eyebrow: "Doação",
+        titulo: "Pagamento não concluído",
+        texto:
+          "Não conseguimos confirmar sua doação desta vez. Se quiser, tente novamente ou contribua direto pela chave Pix.",
+        nota: "Nenhum valor foi cobrado.",
+        inline: "O pagamento não foi concluído. Se quiser, tente novamente.",
+        tipo: "error",
       };
+    }
+
+    function irParaDoacao() {
+      var alvo = document.getElementById("doar");
+      if (!alvo) return;
+      var top = alvo.getBoundingClientRect().top + window.pageYOffset;
+      window.scrollTo({ top: Math.max(0, top), behavior: "auto" });
+    }
+
+    /* com o splash na frente, o salto do #doar e a mensagem podem se perder:
+       espera o splash sair para agir */
+    function depoisDoSplash(fn) {
       var pre = document.getElementById("preloader");
-      var agendado = false;
-      var depoisDoSplash = function (atraso) {
-        if (agendado) return;
-        agendado = true;
-        window.setTimeout(function () {
-          if (hasGsap) ScrollTrigger.refresh();
-          irParaDoacao();
-        }, atraso);
+      var feito = false;
+      var rodar = function () {
+        if (feito) return;
+        feito = true;
+        if (hasGsap) ScrollTrigger.refresh();
+        fn();
       };
 
       if (!pre || pre.classList.contains("is-done")) {
-        depoisDoSplash(120);
-      } else if (window.MutationObserver) {
-        var observador = new MutationObserver(function () {
-          if (pre.classList.contains("is-done")) {
-            observador.disconnect();
-            depoisDoSplash(160);
+        window.setTimeout(rodar, 120);
+        return;
+      }
+
+      if (!window.MutationObserver) {
+        window.setTimeout(rodar, 3200);
+        return;
+      }
+
+      var observador = new MutationObserver(function () {
+        if (pre.classList.contains("is-done")) {
+          observador.disconnect();
+          window.setTimeout(rodar, 160);
+        }
+      });
+      observador.observe(pre, { attributes: true, attributeFilter: ["class"] });
+      window.setTimeout(function () {
+        observador.disconnect();
+        rodar();
+      }, 7000);
+    }
+
+    function abrirDialogo() {
+      if (!dialogo || dialogoAberto) return;
+      dialogoAberto = true;
+      document.documentElement.classList.add("is-lightbox");
+      if (lenis) lenis.stop();
+      if (typeof dialogo.showModal === "function") {
+        dialogo.showModal();
+      } else {
+        dialogo.setAttribute("open", "");
+      }
+    }
+
+    function fecharDialogo(imediato) {
+      if (!dialogo || !dialogoAberto) return;
+      dialogoAberto = false;
+
+      var reduzido =
+        window.matchMedia &&
+        window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+      var fim = function () {
+        document.documentElement.classList.remove("is-lightbox");
+        if (lenis) lenis.start();
+        if (typeof dialogo.close === "function") {
+          if (dialogo.open) dialogo.close();
+        } else {
+          dialogo.removeAttribute("open");
+        }
+        dialogo.classList.remove("is-closing");
+      };
+
+      if (imediato || reduzido) {
+        fim();
+        return;
+      }
+
+      dialogo.classList.add("is-closing");
+      window.setTimeout(fim, 170);
+    }
+
+    function tentarDeNovo() {
+      fecharDialogo(true);
+      irParaDoacao();
+      if (chips.length) chips[0].focus({ preventScroll: true });
+    }
+
+    if (dialogo) {
+      dialogo.addEventListener("close", function () {
+        dialogoAberto = false;
+        document.documentElement.classList.remove("is-lightbox");
+        if (lenis) lenis.start();
+      });
+
+      dialogo.addEventListener("cancel", function (e) {
+        e.preventDefault();
+        fecharDialogo();
+      });
+
+      /* clique no fundo escuro (fora do cartão) fecha */
+      dialogo.addEventListener("click", function (e) {
+        if (e.target === dialogo) fecharDialogo();
+      });
+
+      if (dialogoPrincipal) {
+        dialogoPrincipal.addEventListener("click", function () {
+          if (estadoAtual === "falha") {
+            tentarDeNovo();
+          } else {
+            fecharDialogo();
           }
         });
-        observador.observe(pre, { attributes: true, attributeFilter: ["class"] });
-        window.setTimeout(function () {
-          if (observador) observador.disconnect();
-          depoisDoSplash(0);
-        }, 7000);
+      }
+
+      if (dialogoOutra) {
+        dialogoOutra.addEventListener("click", function () {
+          if (estadoAtual === "falha") {
+            fecharDialogo();
+          } else {
+            tentarDeNovo();
+          }
+        });
+      }
+    }
+
+    if (retorno) {
+      estadoAtual =
+        retorno === "sucesso" ? "sucesso" : retorno === "pendente" ? "pendente" : "falha";
+
+      var valorPago = 0;
+      try {
+        valorPago = parseValor(sessionStorage.getItem("doacao:valor") || "");
+        sessionStorage.removeItem("doacao:valor");
+      } catch (err) {
+        valorPago = 0;
+      }
+
+      var conteudo = textosDoacao(estadoAtual, isFinite(valorPago) ? valorPago : 0);
+
+      if (input) input.value = "";
+
+      /* tira o ?doacao da URL: atualizar a página não repete a mensagem */
+      if (window.history && history.replaceState) {
+        try {
+          history.replaceState(null, "", location.pathname + "#doar");
+        } catch (err) {}
+      }
+
+      if (dialogo) {
+        if (dialogoEyebrow) dialogoEyebrow.textContent = conteudo.eyebrow;
+        if (dialogoTitulo) dialogoTitulo.textContent = conteudo.titulo;
+        if (dialogoTexto) dialogoTexto.innerHTML = conteudo.texto;
+        if (dialogoNota) dialogoNota.textContent = conteudo.nota;
+        if (dialogoIcone) dialogoIcone.setAttribute("d", ICONES[estadoAtual]);
+        if (dialogoPrincipal) {
+          dialogoPrincipal.textContent =
+            estadoAtual === "falha" ? "Tentar novamente" : "Voltar ao site";
+        }
+        if (dialogoOutra) {
+          dialogoOutra.textContent =
+            estadoAtual === "falha" ? "Voltar ao site" : "Fazer outra doação";
+        }
+        dialogo.setAttribute("data-state", estadoAtual);
+
+        depoisDoSplash(function () {
+          irParaDoacao();
+          abrirDialogo();
+        });
       } else {
-        depoisDoSplash(3200);
+        setMsg(conteudo.inline, conteudo.tipo);
+        depoisDoSplash(irParaDoacao);
       }
     }
 

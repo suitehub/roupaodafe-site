@@ -4450,3 +4450,167 @@ html.has-motion .batismo__row:nth-child(3) {
     animation: none;
   }
 }
+
+/* ---------- Confirmação da doação (volta do Mercado Pago) ---------- */
+.doacao-ok {
+  width: min(92vw, 460px);
+  max-width: 460px;
+  max-height: calc(100svh - 32px);
+  margin: auto;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--ink);
+  overflow-x: visible;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.doacao-ok::backdrop {
+  background: color-mix(in srgb, var(--navy-deep) 84%, transparent);
+  -webkit-backdrop-filter: blur(9px);
+  backdrop-filter: blur(9px);
+  animation: doacao-ok-veil 0.32s var(--ease);
+}
+
+.doacao-ok__card {
+  position: relative;
+  padding: clamp(28px, 5vw, 44px) clamp(22px, 4.6vw, 40px) clamp(22px, 4vw, 32px);
+  background: var(--white);
+  border-radius: var(--radius);
+  box-shadow: 0 55px 120px -45px rgba(8, 16, 34, 0.9);
+  text-align: center;
+  animation: doacao-ok-in 0.42s var(--ease);
+}
+
+.doacao-ok.is-closing .doacao-ok__card {
+  animation: doacao-ok-out 0.16s ease forwards;
+}
+
+.doacao-ok__icon {
+  display: grid;
+  place-items: center;
+  width: 66px;
+  height: 66px;
+  margin: 0 auto 1.15rem;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--teal) 14%, transparent);
+  color: var(--teal);
+}
+
+.doacao-ok__icon svg {
+  width: 30px;
+  height: 30px;
+}
+
+.doacao-ok[data-state="pendente"] .doacao-ok__icon {
+  background: color-mix(in srgb, oklch(0.74 0.14 78) 20%, transparent);
+  color: oklch(0.56 0.12 68);
+}
+
+.doacao-ok[data-state="falha"] .doacao-ok__icon {
+  background: color-mix(in srgb, oklch(0.58 0.18 25) 12%, transparent);
+  color: oklch(0.51 0.17 25);
+}
+
+.doacao-ok__eyebrow {
+  font-size: 0.64rem;
+  font-weight: 800;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.doacao-ok__title {
+  margin-top: 0.5rem;
+  font-family: var(--font-display);
+  font-size: clamp(1.75rem, 4.6vw, 2.3rem);
+  line-height: 1.08;
+  color: var(--navy);
+}
+
+.doacao-ok__text {
+  margin-top: 0.75rem;
+  font-size: 0.94rem;
+  line-height: 1.68;
+  color: var(--muted);
+}
+
+.doacao-ok__text b {
+  font-weight: 800;
+  color: var(--navy);
+}
+
+.doacao-ok__actions {
+  display: grid;
+  gap: 0.6rem;
+  margin-top: 1.5rem;
+}
+
+.doacao-ok__actions .btn {
+  justify-content: center;
+}
+
+.doacao-ok__note {
+  margin-top: 1rem;
+  font-size: 0.68rem;
+  line-height: 1.55;
+  color: var(--muted);
+}
+
+@keyframes doacao-ok-veil {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes doacao-ok-in {
+  from {
+    opacity: 0;
+    transform: translateY(16px) scale(0.97);
+  }
+}
+
+@keyframes doacao-ok-out {
+  to {
+    opacity: 0;
+    transform: translateY(6px) scale(0.985);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .doacao-ok::backdrop,
+  .doacao-ok__card {
+    animation: none;
+  }
+}
+
+@media (max-height: 560px) {
+  .doacao-ok__card {
+    padding: 22px 22px 20px;
+  }
+
+  .doacao-ok__icon {
+    width: 50px;
+    height: 50px;
+    margin-bottom: 0.75rem;
+  }
+
+  .doacao-ok__icon svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  .doacao-ok__title {
+    font-size: 1.5rem;
+  }
+
+  .doacao-ok__text {
+    font-size: 0.86rem;
+    line-height: 1.55;
+  }
+
+  .doacao-ok__actions {
+    margin-top: 1rem;
+  }
+}

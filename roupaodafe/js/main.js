@@ -1914,6 +1914,251 @@
     );
   }
 
+  /* =============================================================
+     13. DOAÇÃO — MERCADO PAGO (Checkout Pro)
+     Escolhe o valor (20, 50, 100 ou livre), manda para o backend da
+     Vercel e redireciona o doador ao checkout do Mercado Pago.
+     O Access Token fica no servidor, nunca aqui.
+     ============================================================= */
+  (function doacaoMercadoPago() {
+    var form = document.getElementById("doacaoForm");
+    if (!form) return;
+
+    /* backend do checkout (Vercel) — https://github.com/suitehub/roupaodafe-doacoes */
+    var MP_ENDPOINT = "https://roupaodafe-doacoes-suite-hub1.vercel.app/api/create-preference";
+
+    /* mantenha estes limites iguais aos de mp-api/api/create-preference.js */
+    var MIN = 5;
+    var MAX = 5000;
+
+    var chips = Array.prototype.slice.call(form.querySelectorAll("[data-valor]"));
+    var outro = document.getElementById("doacaoOutro");
+    var input = document.getElementById("doacaoValor");
+    var totalEl = document.getElementById("doacaoTotal");
+    var btn = document.getElementById("doacaoBtn");
+    var btnText = btn ? btn.querySelector("[data-doacao-text]") || btn : null;
+    var msg = document.getElementById("doacaoMsg");
+    var escolhido = "";
+    var enviando = false;
+
+    var brl = new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" });
+
+    function configurado() {
+      return MP_ENDPOINT.indexOf("SEU-PROJETO") === -1 && /^https?:\/\//.test(MP_ENDPOINT);
+    }
+
+    function setMsg(texto, tipo) {
+      if (!msg) return;
+      msg.textContent = texto || "";
+      msg.className = "doacao__msg" + (tipo ? " is-" + tipo : "");
+    }
+
+    /* aceita 50 | 50,00 | 1.234,56 | 1234.56 | 1.000 (mil) */
+    function parseValor(texto) {
+      var s = String(texto == null ? "" : texto).replace(/[^\d.,]/g, "").trim();
+      if (!s) return NaN;
+
+      if (s.indexOf(",") !== -1) {
+        s = s.replace(/\./g, "").replace(",", ".");
+      } else {
+        var partes = s.split(".");
+        if (partes.length > 2) {
+          s = partes.join("");
+        } else if (partes.length === 2 && partes[1].length === 3) {
+          s = partes.join("");
+        }
+      }
+
+      var n = Number(s);
+      return isFinite(n) && n > 0 ? n : NaN;
+    }
+
+    function valorAtual() {
+      if (escolhido === "outro") return parseValor(input ? input.value : "");
+      return Number(escolhido);
+    }
+
+    function atualizar() {
+      var n = valorAtual();
+      var ok = isFinite(n) && n > 0;
+      if (totalEl) totalEl.textContent = brl.format(ok ? n : 0);
+      chips.forEach(function (chip) {
+        chip.setAttribute(
+          "aria-pressed",
+          chip.getAttribute("data-valor") === escolhido ? "true" : "false"
+        );
+      });
+    }
+
+    chips.forEach(function (chip) {
+      chip.addEventListener("click", function () {
+        escolhido = chip.getAttribute("data-valor");
+        var livre = escolhido === "outro";
+        if (outro) outro.hidden = !livre;
+        if (livre && input) input.focus();
+        setMsg("");
+        atualizar();
+      });
+    });
+
+    if (input) {
+      input.addEventListener("input", function () {
+        setMsg("");
+        atualizar();
+      });
+    }
+
+    function mensagemDeErro(status, dados) {
+      var codigo = (dados && dados.error) || "";
+
+      if (status === 429 || codigo === "too_many_requests") {
+        return "Muitas tentativas seguidas. Espere um minutinho e tente de novo.";
+      }
+      if (codigo === "amount_out_of_range" && dados && dados.min) {
+        return (
+          "O valor precisa ficar entre " +
+          brl.format(dados.min) +
+          " e " +
+          brl.format(dados.max) +
+          "."
+        );
+      }
+      if (codigo === "server_not_configured") {
+        return "O pagamento online ainda não está ativo. Use a chave Pix abaixo.";
+      }
+      return "Não foi possível abrir o pagamento agora. Tente novamente ou use o Pix.";
+    }
+
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      if (enviando) return;
+
+      if (!configurado()) {
+        setMsg("O pagamento online ainda está sendo configurado. Use o Pix abaixo.", "error");
+        return;
+      }
+
+      var n = valorAtual();
+
+      if (!escolhido) {
+        setMsg("Escolha um valor para doar.", "error");
+        return;
+      }
+      if (!isFinite(n) || n <= 0) {
+        setMsg("Digite um valor válido para doar.", "error");
+        return;
+      }
+      if (n < MIN) {
+        setMsg("O valor mínimo para doar é " + brl.format(MIN) + ".", "error");
+        return;
+      }
+      if (n > MAX) {
+        setMsg("O valor máximo por doação é " + brl.format(MAX) + ".", "error");
+        return;
+      }
+
+      enviando = true;
+      if (btn) btn.disabled = true;
+      if (btnText) btnText.textContent = "Abrindo o Mercado Pago…";
+      setMsg("");
+
+      fetch(MP_ENDPOINT, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ amount: n }),
+      })
+        .then(function (resposta) {
+          return resposta
+            .json()
+            .catch(function () {
+              return {};
+            })
+            .then(function (dados) {
+              return { status: resposta.status, dados: dados };
+            });
+        })
+        .then(function (res) {
+          var link = res.dados && (res.dados.init_point || res.dados.sandbox_init_point);
+          if (!link) throw { status: res.status, dados: res.dados };
+          window.location.href = link;
+        })
+        .catch(function (err) {
+          enviando = false;
+          if (btn) btn.disabled = false;
+          if (btnText) btnText.textContent = "Doar com Mercado Pago";
+          setMsg(
+            err && err.dados
+              ? mensagemDeErro(err.status, err.dados)
+              : "Sem conexão com o servidor de pagamentos. Verifique sua internet e tente de novo.",
+            "error"
+          );
+          if (window.console) console.error("[doação]", err);
+        });
+    });
+
+    /* volta do Mercado Pago: ?doacao=sucesso | pendente | falha */
+    var retorno = "";
+    try {
+      retorno = new URLSearchParams(window.location.search).get("doacao") || "";
+    } catch (err) {
+      retorno = "";
+    }
+
+    var textos = {
+      sucesso: ["Doação aprovada. Muito obrigado por apoiar essa missão!", "ok"],
+      pendente: ["Doação registrada e aguardando a confirmação do pagamento. Obrigado!", "ok"],
+      falha: ["O pagamento não foi concluído. Se quiser, tente novamente.", "error"],
+    };
+
+    if (retorno && textos[retorno]) {
+      var t = textos[retorno];
+      setMsg(t[0], t[1]);
+      if (input) {
+        /* limpa o valor para não repetir sem querer */
+        input.value = "";
+      }
+
+      /* com o splash na frente, o salto do #doar pode se perder:
+         refaz o caminho quando o splash sai */
+      var irParaDoacao = function () {
+        var alvo = document.getElementById("doar");
+        if (!alvo) return;
+        var top = alvo.getBoundingClientRect().top + window.pageYOffset;
+        window.scrollTo({ top: Math.max(0, top), behavior: "auto" });
+      };
+      var pre = document.getElementById("preloader");
+      var agendado = false;
+      var depoisDoSplash = function (atraso) {
+        if (agendado) return;
+        agendado = true;
+        window.setTimeout(function () {
+          if (hasGsap) ScrollTrigger.refresh();
+          irParaDoacao();
+        }, atraso);
+      };
+
+      if (!pre || pre.classList.contains("is-done")) {
+        depoisDoSplash(120);
+      } else if (window.MutationObserver) {
+        var observador = new MutationObserver(function () {
+          if (pre.classList.contains("is-done")) {
+            observador.disconnect();
+            depoisDoSplash(160);
+          }
+        });
+        observador.observe(pre, { attributes: true, attributeFilter: ["class"] });
+        window.setTimeout(function () {
+          if (observador) observador.disconnect();
+          depoisDoSplash(0);
+        }, 7000);
+      } else {
+        depoisDoSplash(3200);
+      }
+    }
+
+    atualizar();
+  })();
+
   /* depois do travamento montado: aí a faixa dos cartões já tem a altura
      final da cena e o ajuste da largura mede o espaço certo */
   setupVideoFit();

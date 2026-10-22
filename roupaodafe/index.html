@@ -1383,7 +1383,8 @@
             <h2 class="display" data-split>Sua contribuição <em>faz a diferença.</em></h2>
             <p class="scene__lead" data-reveal>
               Seu apoio ajuda na aquisição de roupões e nos materiais usados nas ações missionárias
-              do projeto. Contribua com qualquer valor pela chave Pix abaixo.
+              do projeto. Escolha um valor e doe com cartão, Pix ou boleto pelo Mercado Pago — ou
+              use a chave Pix abaixo.
             </p>
             <ul class="donate__list" data-reveal>
               <li>Roupões e embalagens para as entregas</li>
@@ -1393,6 +1394,55 @@
           </div>
 
           <div class="pix" data-reveal>
+            <form class="doacao" id="doacaoForm" novalidate>
+              <p class="pix__label">Doar com Mercado Pago</p>
+
+              <div class="doacao__valores" role="group" aria-label="Escolha o valor da doação">
+                <button class="doacao__valor" type="button" data-valor="20" aria-pressed="false">
+                  R$ 20
+                </button>
+                <button class="doacao__valor" type="button" data-valor="50" aria-pressed="false">
+                  R$ 50
+                </button>
+                <button class="doacao__valor" type="button" data-valor="100" aria-pressed="false">
+                  R$ 100
+                </button>
+                <button class="doacao__valor" type="button" data-valor="outro" aria-pressed="false">
+                  Outro valor
+                </button>
+              </div>
+
+              <div class="doacao__outro" id="doacaoOutro" hidden>
+                <label class="doacao__label" for="doacaoValor">Quanto você quer doar? (R$)</label>
+                <input
+                  class="doacao__input"
+                  id="doacaoValor"
+                  name="valor"
+                  type="text"
+                  inputmode="decimal"
+                  autocomplete="off"
+                  placeholder="0,00"
+                />
+              </div>
+
+              <p class="doacao__resumo">
+                Você vai doar <b id="doacaoTotal">R$ 0,00</b>
+              </p>
+
+              <button class="btn btn--solid btn--block doacao__btn" id="doacaoBtn" type="submit">
+                <span data-doacao-text>Doar com Mercado Pago</span>
+              </button>
+
+              <p class="doacao__msg" id="doacaoMsg" role="status" aria-live="polite"></p>
+
+              <p class="doacao__seguro">
+                Cartão, Pix ou boleto em ambiente seguro do Mercado Pago. Você é levado ao
+                checkout e volta para o site depois de pagar.
+              </p>
+            </form>
+
+            <div class="doacao__ou" aria-hidden="true"><span>ou doe direto pelo Pix</span></div>
+
             <p class="pix__label">Chave Pix — telefone</p>
             <div class="pix__row">
               <span class="pix__key">(11) 98761-2710</span>
@@ -1411,7 +1461,7 @@
               <p class="pix__label">Beneficiário</p>
               <p class="pix__name">Marcos Camilo da Silva</p>
             </div>
-            <a class="btn btn--solid btn--block" href="tel:+5511987612710">Falar com a equipe</a>
+            <a class="btn btn--ghost btn--block" href="tel:+5511987612710">Falar com a equipe</a>
           </div>
         </div>
       </section>

@@ -2106,6 +2106,161 @@ button:focus-visible {
   color: var(--ink);
 }
 
+/* ---------- 09 · Doação com Mercado Pago ---------- */
+.doacao {
+  display: grid;
+  gap: 0.85rem;
+}
+
+.doacao__valores {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.5rem;
+  margin-top: 0.15rem;
+}
+
+.doacao__valor {
+  padding: 0.9rem 0.25rem;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--white);
+  color: var(--navy);
+  font-family: var(--font-sans);
+  font-size: 0.92rem;
+  font-weight: 800;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    background-color 0.25s ease,
+    border-color 0.25s ease,
+    color 0.25s ease,
+    transform 0.25s var(--ease);
+}
+
+.doacao__valor:hover {
+  border-color: var(--teal);
+  transform: translateY(-1px);
+}
+
+.doacao__valor[aria-pressed="true"] {
+  background: var(--navy);
+  border-color: var(--navy);
+  color: #fff;
+}
+
+.doacao__valor:focus-visible {
+  outline: 2px solid var(--teal);
+  outline-offset: 2px;
+}
+
+.doacao__outro {
+  display: grid;
+  gap: 0.4rem;
+}
+
+.doacao__outro[hidden] {
+  display: none;
+}
+
+.doacao__label {
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.doacao__input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: color-mix(in srgb, var(--navy) 5%, var(--white));
+  color: var(--navy);
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  line-height: 1.2;
+  transition: border-color 0.25s ease, background-color 0.25s ease;
+}
+
+.doacao__input:focus {
+  outline: none;
+  border-color: var(--teal);
+  background: var(--white);
+}
+
+.doacao__resumo {
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+.doacao__resumo b {
+  color: var(--navy);
+  font-size: 1rem;
+}
+
+.doacao__btn[disabled] {
+  opacity: 0.7;
+  cursor: progress;
+  transform: none;
+}
+
+.doacao__msg {
+  font-size: 0.78rem;
+  line-height: 1.55;
+  color: var(--muted);
+}
+
+.doacao__msg:empty {
+  display: none;
+}
+
+.doacao__msg.is-error {
+  color: #b3261e;
+  font-weight: 600;
+}
+
+.doacao__msg.is-ok {
+  color: var(--teal);
+  font-weight: 700;
+}
+
+.doacao__seguro {
+  font-size: 0.68rem;
+  line-height: 1.6;
+  color: var(--muted);
+}
+
+.doacao__ou {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  margin: 1.5rem 0 1.2rem;
+}
+
+.doacao__ou::before,
+.doacao__ou::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--line);
+}
+
+.doacao__ou span {
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+@media (max-width: 480px) {
+  .doacao__valores {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
 /* ---------- 06 · Contato ---------- */
 .finale {
   position: relative;

@@ -1165,6 +1165,32 @@
                     pé.
                   </p>
 
+                  <div class="case__video">
+                    <button
+                      class="case__video-trigger"
+                      type="button"
+                      data-mmn-open
+                      aria-haspopup="dialog"
+                      aria-controls="mmnVideoDialog"
+                    >
+                      <img
+                        src="assets/capao1.jpeg"
+                        alt=""
+                        loading="lazy"
+                        decoding="async"
+                      />
+                      <span class="case__video-play" aria-hidden="true">
+                        <svg viewBox="0 0 24 24">
+                          <path d="M7.2 4.6 19 12 7.2 19.4z" />
+                        </svg>
+                      </span>
+                      <span class="case__video-badge">Vídeo</span>
+                    </button>
+                    <p class="case__video-caption">
+                      <strong>Pr. Ademir Firme</strong>, secretário da Missão Mineira Norte
+                    </p>
+                  </div>
+
                   <p class="case__note">
                     Registros do terreno e do plantio em Capão Enéias, norte de Minas.
                   </p>
@@ -1581,6 +1607,31 @@
           <path d="M6 6l12 12M18 6 6 18" />
         </svg>
       </button>
+    </div>
+
+    <div
+      id="mmnVideoDialog"
+      class="mmn-dialog"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="mmnVideoTitle"
+      tabindex="-1"
+      hidden
+    >
+      <div class="mmn-dialog__backdrop" data-mmn-close></div>
+      <div class="mmn-dialog__inner" role="document">
+        <button class="mmn-dialog__close" type="button" data-mmn-close aria-label="Fechar vídeo">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M6 6l12 12M18 6 6 18" />
+          </svg>
+        </button>
+        <div class="mmn-dialog__frame">
+          <video id="mmnVideo" src="assets/mmn.mp4" controls playsinline></video>
+        </div>
+        <p id="mmnVideoTitle" class="mmn-dialog__title">
+          Pr. Ademir Firme, secretário da Missão Mineira Norte
+        </p>
+      </div>
     </div>
 
     <script src="vendor/gsap.min.js"></script>

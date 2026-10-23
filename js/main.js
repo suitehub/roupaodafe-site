@@ -1864,6 +1864,95 @@
   setupVideoThumbs();
   setupLightbox();
 
+  /* =============================================================
+     16.1 VÍDEO MMN (Capão Enéias)
+     ============================================================= */
+  (function setupMmnVideo() {
+    var dialog = document.getElementById("mmnVideoDialog");
+    var video = document.getElementById("mmnVideo");
+    var openers = Array.prototype.slice.call(document.querySelectorAll("[data-mmn-open]"));
+    var closers = dialog ? Array.prototype.slice.call(dialog.querySelectorAll("[data-mmn-close]")) : [];
+    var lastFocus = null;
+
+    if (!dialog || !video || !openers.length) return;
+
+    function open() {
+      lastFocus = document.activeElement;
+      dialog.hidden = false;
+      document.documentElement.classList.add("is-lightbox");
+      if (lenis) lenis.stop();
+      try {
+        video.currentTime = 0;
+      } catch (err) {}
+      var p = video.play();
+      if (p && typeof p.catch === "function") p.catch(function () {});
+      window.setTimeout(function () {
+        var btn = dialog.querySelector(".mmn-dialog__close");
+        if (btn) btn.focus({ preventScroll: true });
+      }, 40);
+    }
+
+    function close() {
+      try {
+        video.pause();
+      } catch (err) {}
+      dialog.hidden = true;
+      document.documentElement.classList.remove("is-lightbox");
+      if (lenis) lenis.start();
+      if (lastFocus && typeof lastFocus.focus === "function") {
+        try {
+          lastFocus.focus({ preventScroll: true });
+        } catch (err) {}
+      }
+      lastFocus = null;
+    }
+
+    openers.forEach(function (btn) {
+      btn.addEventListener("click", function (e) {
+        e.preventDefault();
+        open();
+      });
+    });
+
+    closers.forEach(function (el) {
+      el.addEventListener("click", close);
+    });
+
+    dialog.addEventListener("click", function (e) {
+      if (e.target === dialog) close();
+    });
+
+    document.addEventListener("keydown", function (e) {
+      if (dialog.hidden) return;
+      if (e.key === "Escape") {
+        e.preventDefault();
+        close();
+        return;
+      }
+      if (e.key === "Tab") {
+        var focusables = Array.prototype.slice.call(
+          dialog.querySelectorAll('button, [href], video, [tabindex]:not([tabindex="-1"])')
+        ).filter(function (el) {
+          return el.offsetWidth > 0 || el.offsetHeight > 0;
+        });
+        if (!focusables.length) return;
+        var first = focusables[0];
+        var last = focusables[focusables.length - 1];
+        if (e.shiftKey) {
+          if (document.activeElement === first) {
+            e.preventDefault();
+            last.focus();
+          }
+        } else {
+          if (document.activeElement === last) {
+            e.preventDefault();
+            first.focus();
+          }
+        }
+      }
+    });
+  })();
+
   /* Tudo o que trava na tela (pin) cria espaçamento no documento, então
      precisa nascer em ordem — batismo, cenas horizontais, fases — antes
      das trilhas de capítulo/passos. Se nascerem fora de ordem, os gatilhos
